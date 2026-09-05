@@ -45,10 +45,10 @@ public class CreateUserUseCase implements CreateUserPortIn {
         return mapper.entityToUserResponse(createdUser);
     }
 
-    public void normalizeData(User user) {
+    private void normalizeData(User user) {
         user.setName(normalizer.normalizeToUpperCase(user.getName()));
         user.setCpf(normalizer.normalizeCpf(user.getCpf()));
-        user.setEmail(normalizer.normalizeToUpperCase(user.getEmail()));
+        user.setEmail(normalizer.normalizeEmail(user.getEmail()));
     }
 
     private void validateData(CreateUserRequest request) {
