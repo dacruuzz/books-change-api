@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.address.adapters.in;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.request.CreateAddressRequest;
-import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequest;
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.request.CreateAddressRequestDTO;
+import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequestDTO;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.ports.in.CreateAddressPortIn;
 import br.com.bookschange.api.application.address.ports.in.DeleteAddressPortIn;
 import br.com.bookschange.api.application.address.ports.in.FindAddressPortIn;
@@ -27,22 +27,22 @@ public class AddressController {
     private final DeleteAddressPortIn deleteAddressPortIn;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody CreateAddressRequest request) {
-        AddressResponse response = createAddressPortIn.create(request);
+    public ResponseEntity<?> create(@Valid @RequestBody CreateAddressRequestDTO request) {
+        AddressResponseDTO response = createAddressPortIn.create(request);
         return apiResponseBuilder.buildCreated(response);
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<?> findByUuid(@PathVariable UUID uuid) {
-        AddressResponse response = findAddressPortIn.findByUuid(uuid);
+        AddressResponseDTO response = findAddressPortIn.findByUuid(uuid);
         return apiResponseBuilder.buildSuccess(response);
     }
 
     @PutMapping("/{uuid}")
     public ResponseEntity<?> update(@PathVariable UUID uuid,
-                                    @Valid @RequestBody UpdateAddressRequest request
+                                    @Valid @RequestBody UpdateAddressRequestDTO request
     ) {
-        AddressResponse response = updateAddressPortIn.update(uuid, request);
+        AddressResponseDTO response = updateAddressPortIn.update(uuid, request);
         return apiResponseBuilder.buildSuccess(response);
     }
 

@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.address.usecases;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.in.FindAddressPortIn;
 import br.com.bookschange.api.application.address.ports.out.FindAddressPortOut;
@@ -20,7 +20,7 @@ public class FindAddressUseCase implements FindAddressPortIn {
     private final FindAddressPortOut findAddressPortOut;
 
     @Override
-    public AddressResponse findByUuid(UUID uuid) {
+    public AddressResponseDTO findByUuid(UUID uuid) {
         log.info("Buscando endereço por uuid | uuid: {}", uuid);
 
         Address foundAddress = findAddressPortOut.findByUuidOrThrow(uuid);

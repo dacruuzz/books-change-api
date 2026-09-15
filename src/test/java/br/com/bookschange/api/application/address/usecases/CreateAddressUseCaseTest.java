@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.address.usecases;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.request.CreateAddressRequest;
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.request.CreateAddressRequestDTO;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.out.SaveAddressPortOut;
 import br.com.bookschange.api.application.address.services.AddressNormalizer;
@@ -31,12 +31,12 @@ class CreateAddressUseCaseTest {
     @InjectMocks
     private CreateAddressUseCase useCase;
 
-    private CreateAddressRequest request;
+    private CreateAddressRequestDTO request;
     private Address address;
 
     @BeforeEach
     void setUp() {
-        request = new CreateAddressRequest(
+        request = new CreateAddressRequestDTO(
                 "70680-642",
                 "street",
                 "000",
@@ -61,14 +61,14 @@ class CreateAddressUseCaseTest {
     @DisplayName("Deve criar um endereço com sucesso")
     void shouldCreateNewAddressSuccessfully() {
         doNothing().when(validator).validateZipCode(request.zipCode());
-        when(mapper.createAddressRequestToEntity(request)).thenReturn(address);
+        when(mapper.createAddressRequestDtoToEntity(request)).thenReturn(address);
         doNothing().when(normalizer).normalizeData(address);
         when(saveAddressPortOut.save(address)).thenReturn(address);
 
-        AddressResponse expectedResponse = mock(AddressResponse.class);
+        AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
         when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
 
-        AddressResponse result = useCase.create(request);
+        AddressResponseDTO result = useCase.create(request);
 
         assertEquals(expectedResponse, result);
 
@@ -77,7 +77,7 @@ class CreateAddressUseCaseTest {
 
         verify(normalizer, times(1)).normalizeData(any());
         verify(validator, times(1)).validateZipCode(anyString());
-        verify(mapper, times(1)).createAddressRequestToEntity(any());
+        verify(mapper, times(1)).createAddressRequestDtoToEntity(any());
         verify(mapper, times(1)).entityToAddressResponse(any());
         verify(saveAddressPortOut).save(any());
     }
@@ -90,7 +90,7 @@ class CreateAddressUseCaseTest {
         assertThrows(BusinessException.class, () -> useCase.create(request));
 
         verify(normalizer, never()).normalizeData(any());
-        verify(mapper, never()).createAddressRequestToEntity(any());
+        verify(mapper, never()).createAddressRequestDtoToEntity(any());
         verify(mapper, never()).entityToAddressResponse(any());
         verify(saveAddressPortOut, never()).save(any());
     }
