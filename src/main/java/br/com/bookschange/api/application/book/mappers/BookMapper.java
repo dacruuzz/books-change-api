@@ -22,11 +22,11 @@ public interface BookMapper {
     @Mapping(target = "bookCategories", ignore = true)
     void updateBookRequestDtoToEntity(UpdateBookRequestDTO request, @MappingTarget Book book);
 
-    BookFilterDTO filterBookRequestToBookFilter(FilterBookRequestDTO request);
+    BookFilterDTO filterBookRequestToBookFilterDto(FilterBookRequestDTO request);
 
     @Mapping(target = "ownerUuid", source = "owner.uuid")
     @Mapping(target = "categories", source = "bookCategories")
-    BookResponseDTO entityToBookResponse(Book book);
+    BookResponseDTO entityToBookResponseDto(Book book);
 
     default List<SelectOptionDTO> mapBookCategories(List<BookCategory> bookCategories) {
         return bookCategories
