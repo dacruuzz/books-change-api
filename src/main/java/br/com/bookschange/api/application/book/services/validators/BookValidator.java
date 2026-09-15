@@ -1,4 +1,4 @@
-package br.com.bookschange.api.application.book.services;
+package br.com.bookschange.api.application.book.services.validators;
 
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
 import br.com.bookschange.api.domain.models.Category;

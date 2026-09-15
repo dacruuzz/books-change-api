@@ -1,7 +1,7 @@
-package br.com.bookschange.api.application.book.services;
+package br.com.bookschange.api.application.book.services.normalizers;
 
 import br.com.bookschange.api.domain.models.Book;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

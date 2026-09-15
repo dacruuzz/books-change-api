@@ -1,4 +1,4 @@
-package br.com.bookschange.api.shared.services;
+package br.com.bookschange.api.shared.services.validators;
 
 import br.com.bookschange.infrastructure.shared.util.CNPJUtil;
 import br.com.bookschange.infrastructure.shared.util.CPFUtil;

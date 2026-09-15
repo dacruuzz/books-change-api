@@ -5,8 +5,8 @@ import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookRes
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.in.CreateBookPortIn;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
-import br.com.bookschange.api.application.book.services.BookNormalizer;
-import br.com.bookschange.api.application.book.services.BookValidator;
+import br.com.bookschange.api.application.book.services.normalizers.BookNormalizer;
+import br.com.bookschange.api.application.book.services.validators.BookValidator;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.domain.models.Book;

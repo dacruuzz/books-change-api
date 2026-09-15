@@ -4,8 +4,8 @@ import br.com.bookschange.api.application.store.adapters.in.dtos.request.CreateS
 import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
-import br.com.bookschange.api.application.store.services.StoreNormalizer;
-import br.com.bookschange.api.application.store.services.StoreValidator;
+import br.com.bookschange.api.application.store.services.normalizers.StoreNormalizer;
+import br.com.bookschange.api.application.store.services.validators.StoreValidator;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
 import br.com.bookschange.api.domain.enums.UserType;
