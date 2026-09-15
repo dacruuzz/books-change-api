@@ -6,7 +6,7 @@ import br.com.bookschange.api.shared.dtos.SelectOptionDTO;
 import java.util.List;
 import java.util.UUID;
 
-public record BookResponse(
+public record BookResponseDTO(
         UUID uuid,
         String name,
         String author,

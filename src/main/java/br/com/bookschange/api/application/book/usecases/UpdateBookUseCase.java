@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.in.UpdateBookPortIn;
 import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
@@ -31,7 +31,7 @@ public class UpdateBookUseCase implements UpdateBookPortIn {
     private final SaveBookPortOut saveBookPortOut;
 
     @Override
-    public BookResponse update(UUID uuid, UpdateBookRequest request) {
+    public BookResponseDTO update(UUID uuid, UpdateBookRequestDTO request) {
         log.info("Atualizando livro | uuid: {}", uuid);
 
         Book book = findBookPortOut.findByUuidOrThrow(uuid);
@@ -39,7 +39,7 @@ public class UpdateBookUseCase implements UpdateBookPortIn {
 
         validator.validateCategories(categories);
 
-        mapper.updateBookFromRequest(request, book);
+        mapper.updateBookRequestDtoToEntity(request, book);
 
         book.replaceCategories(categories);
 

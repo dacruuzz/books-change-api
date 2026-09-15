@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
 import br.com.bookschange.api.application.book.services.BookNormalizer;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -49,8 +48,8 @@ class CreateBookUseCaseTest {
     public static final String LIVRO_EDITORA = "Livro editora";
     public static final String LIVRO_RESUMO = "Livro resumo";
 
-    private BookResponse expectedResponse;
-    private CreateBookRequest request;
+    private BookResponseDTO expectedResponse;
+    private CreateBookRequestDTO request;
     private Book mappedBook;
     private User owner;
     private List<Category> categoryList;
@@ -70,7 +69,7 @@ class CreateBookUseCaseTest {
         List<BookCategory> bookCategoryList = new ArrayList<>();
         bookCategoryList.add(mock(BookCategory.class));
 
-        request = new CreateBookRequest(
+        request = new CreateBookRequestDTO(
                 LIVRO_NOME,
                 LIVRO_AUTOR,
                 LIVRO_EDITORA,
@@ -89,7 +88,7 @@ class CreateBookUseCaseTest {
         mappedBook.setCurrentCondition(request.currentCondition());
         mappedBook.setOwner(owner);
 
-        expectedResponse = mock(BookResponse.class);
+        expectedResponse = mock(BookResponseDTO.class);
     }
 
     @Test
@@ -103,7 +102,7 @@ class CreateBookUseCaseTest {
         when(saveBookPortOut.save(mappedBook)).thenReturn(mappedBook);
         when(mapper.entityToBookResponse(mappedBook)).thenReturn(expectedResponse);
 
-        BookResponse result = useCase.create(request);
+        BookResponseDTO result = useCase.create(request);
 
         assertEquals(expectedResponse, result);
         verify(validator, times(1)).validateCategories(anyList());

@@ -1,11 +1,11 @@
-package br.com.bookschange.api.application.book.adapters.in.dtos.request;
+package br.com.bookschange.api.application.book.dtos;
 
 import br.com.bookschange.api.domain.enums.CurrentCondition;
 
 import java.util.List;
 import java.util.UUID;
 
-public record FilterBookRequest(
+public record BookFilterDTO(
         String name,
         String author,
         String publisher,

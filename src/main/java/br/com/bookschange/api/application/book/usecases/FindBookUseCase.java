@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.in.FindBookPortIn;
 import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
@@ -20,7 +20,7 @@ public class FindBookUseCase implements FindBookPortIn {
     private final FindBookPortOut findBookPortOut;
 
     @Override
-    public BookResponse findByUuid(UUID uuid) {
+    public BookResponseDTO findByUuid(UUID uuid) {
         log.info("Buscando livro | uuid: {}", uuid);
 
         Book foundBook = findBookPortOut.findByUuidOrThrow(uuid);

@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.user.adapters.in;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.user.adapters.in.dtos.request.CreateUserRequest;
 import br.com.bookschange.api.application.user.adapters.in.dtos.request.UpdateUserRequest;
 import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
@@ -44,9 +44,9 @@ public class UserController {
     public ResponseEntity<?> findUserBooks(@PathVariable UUID uuid,
                                            @RequestParam(defaultValue = "1") int page,
                                            @RequestParam(defaultValue = "10") int pageSize,
-                                           @RequestBody FilterBookRequest request
+                                           @RequestBody FilterBookRequestDTO request
     ) {
-        PageDTO<BookResponse> response = filterUserBooksPagedPortIn.filter(uuid, request, page, pageSize);
+        PageDTO<BookResponseDTO> response = filterUserBooksPagedPortIn.filter(uuid, request, page, pageSize);
         return apiResponseBuilder.buildSuccessPaged(response);
     }
 
