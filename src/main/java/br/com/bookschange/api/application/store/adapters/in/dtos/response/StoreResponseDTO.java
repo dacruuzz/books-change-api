@@ -2,7 +2,7 @@ package br.com.bookschange.api.application.store.adapters.in.dtos.response;
 
 import java.util.UUID;
 
-public record StoreResponse(
+public record StoreResponseDTO(
         UUID uuid,
         String name,
         String cnpj,

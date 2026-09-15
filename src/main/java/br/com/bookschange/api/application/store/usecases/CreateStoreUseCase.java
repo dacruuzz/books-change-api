@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.request.CreateStoreRequest;
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.request.CreateStoreRequestDTO;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.in.CreateStorePortIn;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
@@ -9,7 +9,6 @@ import br.com.bookschange.api.application.store.services.StoreNormalizer;
 import br.com.bookschange.api.application.store.services.StoreValidator;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
-import br.com.bookschange.api.domain.enums.UserType;
 import br.com.bookschange.api.domain.models.Store;
 import br.com.bookschange.api.domain.models.User;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class CreateStoreUseCase implements CreateStorePortIn {
     private final SaveUserPortOut saveUserPortOut;
 
     @Override
-    public StoreResponse create(CreateStoreRequest request) {
+    public StoreResponseDTO create(CreateStoreRequestDTO request) {
         log.info("Iniciando criação de loja | e-mail: {}", request.commercialEmail());
 
         validator.validateCreation(request.commercialEmail(), request.cnpj(), request.slug(), request.ownerUuid());
@@ -37,7 +36,7 @@ public class CreateStoreUseCase implements CreateStorePortIn {
         User owner = findUserPortOut.findByUuidOrThrow(request.ownerUuid());
         owner.grantStoreOwnership();
 
-        Store store = mapper.createStoreRequestToEntity(request);
+        Store store = mapper.createStoreRequestDtoToEntity(request);
         store.setActive(true);
         store.setOwner(owner);
 
@@ -48,6 +47,6 @@ public class CreateStoreUseCase implements CreateStorePortIn {
 
         log.info("Loja criada com sucesso | uuid: {} | e-mail: {}", createdStore.getUuid(), createdStore.getCommercialEmail());
 
-        return mapper.entityToStoreResponse(createdStore);
+        return mapper.entityToStoreResponseDto(createdStore);
     }
 }
