@@ -35,7 +35,9 @@ public class UpdateAddressUseCase implements UpdateAddressPortIn {
 
         Address foundAddress = findAddressPortOut.findByUuidOrThrow(uuid);
 
-        validator.validateZipCode(request.zipCode());
+        if (request.zipCode() != null) {
+            validator.validateZipCode(request.zipCode());
+        }
 
         mapper.updateAddressRequestToEntity(request, foundAddress);
 

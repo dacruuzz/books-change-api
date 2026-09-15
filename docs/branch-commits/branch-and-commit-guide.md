@@ -59,6 +59,19 @@ O escopo é opcional, mas deixa seu commit mais descritivo:
 
 `feat: adiciona endpoint para cadastro de livro`
 
+## Assinatura para uma issue
+
+Normalmente, o commit que será feita vai estar relacionado à alguma issue no board no github.
+Então, o padrão adotado para isso é o seguinte:
+`#<issue> - <tipo>(<escopo>): <descrição>`
+
+Exemplo:
+
+`#67 - feat(doc) adicionando documentação.`
+
+Escrever assim faz com que os commits se relacionem à issue pelo número dela.
+O próprio github faz isso, isso criar um vínculo (um link é adicionado) quando o PR está atribuído à issue.
+
 ### Tipos de commit
 
 | Tipo          | Uso |

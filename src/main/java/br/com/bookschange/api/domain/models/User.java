@@ -42,4 +42,12 @@ public class User extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserType userType;
+
+    public void grantStoreOwnership() {
+        this.userType = UserType.STORE;
+    }
+
+    public void revokeStoreOwnership() {
+        this.userType = UserType.DEFAULT;
+    }
 }

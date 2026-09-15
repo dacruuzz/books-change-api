@@ -4,6 +4,7 @@ import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
 import br.com.bookschange.api.domain.models.Store;
+import br.com.bookschange.api.shared.services.TextNormalizer;
 import br.com.bookschange.infrastructure.shared.util.CNPJUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +18,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StoreValidator {
 
+    private final TextNormalizer normalizer;
     private final FindStorePortOut findStorePortOut;
 
     public void validateEmail(String email) {
-        String normalizedEmail = email.trim().toLowerCase();
+        String normalizedEmail = normalizer.normalizeEmail(email);
 
         if (findStorePortOut.existsByEmail(normalizedEmail)) {
             log.warn("Tentativa de cadastro com e-mail existente");
@@ -38,7 +40,7 @@ public class StoreValidator {
     }
 
     public void validateSlug(String slug) {
-        String normalizedSlug = slug.trim().toLowerCase();
+        String normalizedSlug = normalizer.normalizeToLowerCase(slug);
 
         if (findStorePortOut.existsBySlug(normalizedSlug)) {
             log.warn("Tentativa de cadastro com identificador existente");
@@ -63,7 +65,7 @@ public class StoreValidator {
     }
 
     public void validateUpdate(UUID uuid, String slug) {
-        String normalizedSlug = slug.trim().toLowerCase();
+        String normalizedSlug = normalizer.normalizeToLowerCase(slug);
 
         findStorePortOut.findBySlug(normalizedSlug)
                 .ifPresent(store -> {

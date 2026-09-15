@@ -50,6 +50,8 @@ Use este arquivo como referência ao criar novos endpoints ou ao revisar PRs; qu
 - **StoreDeletionService**: testar cenários (loja sem endereço, proprietário sem loja, falha na deleção de endereço) e que efeitos colaterais ocorrem conforme esperado.
   - [StoreDeletionService](services/store-deletion-service.md)
 - **UseCases**: mockar ports out e verificar que normalizer e validator são chamados, que transação cobre a operação e que exceptions são lançadas corretamente.
+- **Padrão AAA e convenções de testes unitários**: veja o guia dedicado com o detalhamento do padrão Arrange-Act-Assert, convenções de nomenclatura e boas práticas com Mockito adotadas no projeto.
+  - [Testes Unitários (AAA)](../../tests/unit-tests.md)
 
 ---
 

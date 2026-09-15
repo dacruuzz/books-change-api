@@ -2,8 +2,6 @@ package br.com.bookschange.api.application.store.services;
 
 import br.com.bookschange.api.application.address.ports.out.DeleteAddressPortOut;
 import br.com.bookschange.api.application.store.ports.out.DeleteStorePortOut;
-import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
-import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
 import br.com.bookschange.api.domain.enums.UserType;
 import br.com.bookschange.api.domain.models.Address;
@@ -14,16 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class StoreDeletionService {
 
-    private final FindStorePortOut findStorePortOut;
     private final DeleteStorePortOut deleteStorePortOut;
-    private final FindUserPortOut findUserPortOut;
     private final SaveUserPortOut saveUserPortOut;
     private final DeleteAddressPortOut deleteAddressPortOut;
 
@@ -46,7 +40,7 @@ public class StoreDeletionService {
     private void updateOwnerUserType(User owner) {
         log.debug("Buscando usuário para alteração do tipo do usuário | ownerUuid: {}", owner.getUuid());
 
-        owner.setUserType(UserType.DEFAULT);
+        owner.revokeStoreOwnership();
 
         saveUserPortOut.save(owner);
         log.debug("Tipo do usuário atualizado para DEFAULT | ownerUuid: {}", owner.getUuid());

@@ -8,6 +8,7 @@ import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut
 import br.com.bookschange.api.application.category.ports.out.SaveCategoryPortOut;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
 import br.com.bookschange.api.domain.models.Category;
+import br.com.bookschange.api.shared.services.TextNormalizer;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class CreateCategoryUseCase implements CreateCategoryPortIn {
 
     private final CategoryMapper mapper;
+    private final TextNormalizer normalizer;
     private final SaveCategoryPortOut saveCategoryPortOut;
     private final FindCategoryPortOut findCategoryPortOut;
 
@@ -44,16 +46,16 @@ public class CreateCategoryUseCase implements CreateCategoryPortIn {
 
     private void normalizeData(Category category) {
         if (category.getLabel() != null) {
-            category.setLabel(category.getLabel().toUpperCase());
+            category.setLabel(normalizer.normalizeToUpperCase(category.getLabel()));
         }
 
         if (category.getSlug() != null) {
-            category.setSlug(category.getSlug().trim().toLowerCase());
+            category.setSlug(normalizer.normalizeToLowerCase(category.getSlug()));
         }
     }
 
     public void validateSlug(String slug) {
-        String normalizedSlug = slug.trim().toLowerCase();
+        String normalizedSlug = normalizer.normalizeToLowerCase(slug);
 
         if (findCategoryPortOut.existsBySlug(normalizedSlug)) {
             log.warn("Tentativa de cadastro com identificador existente");
