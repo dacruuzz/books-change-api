@@ -6,7 +6,7 @@ import br.com.bookschange.api.domain.enums.UserType;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public record UserResponse(
+public record UserResponseDTO(
         UUID uuid,
         String name,
         String cpf,
