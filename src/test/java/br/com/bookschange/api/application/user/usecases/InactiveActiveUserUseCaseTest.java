@@ -5,7 +5,7 @@ import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
@@ -73,7 +73,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve inativar um usuário com sucesso")
     void shouldInactivateUserSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(true);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -84,9 +84,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveAddressPortOut.save(address)).thenReturn(address);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, INACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, INACTIVE);
 
         assertEquals(expectedResponse, response);
         assertFalse(user.isActive());
@@ -97,13 +97,13 @@ class InactiveActiveUserUseCaseTest {
         verify(saveAddressPortOut).save(address);
         verify(saveStorePortOut).save(store);
         verify(saveUserPortOut).save(user);
-        verify(mapper).entityToUserResponse(user);
+        verify(mapper).entityToUserResponseDto(user);
     }
 
     @Test
     @DisplayName("Deve ativar um usuário com sucesso")
     void shouldActivateUserSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(false);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -114,9 +114,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveAddressPortOut.save(address)).thenReturn(address);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, ACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, ACTIVE);
 
         assertEquals(expectedResponse, response);
         assertTrue(user.isActive());
@@ -127,13 +127,13 @@ class InactiveActiveUserUseCaseTest {
         verify(saveAddressPortOut).save(address);
         verify(saveStorePortOut).save(store);
         verify(saveUserPortOut).save(user);
-        verify(mapper).entityToUserResponse(user);
+        verify(mapper).entityToUserResponseDto(user);
     }
 
     @Test
     @DisplayName("Deve inativar um usuário que possui apenas livros, sem loja")
     void shouldInactivateUserWithOnlyBooksSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(true);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -141,9 +141,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveBookPortOut.saveAll(bookList)).thenReturn(bookList);
         when(findStorePortOut.findByOwnerUuid(user.getUuid())).thenReturn(Optional.empty());
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, INACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, INACTIVE);
 
         assertEquals(expectedResponse, response);
         assertFalse(user.isActive());
@@ -158,7 +158,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve ativar um usuário que possui apenas livros, sem loja")
     void shouldActivateUserWithOnlyBooksSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(false);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -166,9 +166,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveBookPortOut.saveAll(bookList)).thenReturn(bookList);
         when(findStorePortOut.findByOwnerUuid(user.getUuid())).thenReturn(Optional.empty());
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, ACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, ACTIVE);
 
         assertEquals(expectedResponse, response);
         assertTrue(user.isActive());
@@ -183,7 +183,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve inativar um usuário que possui apenas loja com endereço associado")
     void shouldInactivateUserWithStoreWithAddressSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(true);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -193,9 +193,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveAddressPortOut.save(address)).thenReturn(address);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, INACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, INACTIVE);
 
         assertEquals(expectedResponse, response);
         assertFalse(user.isActive());
@@ -210,7 +210,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve ativar um usuário que possui apenas loja com endereço associado")
     void shouldActivateUserWithStoreWithAddressSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(false);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -220,9 +220,9 @@ class InactiveActiveUserUseCaseTest {
         when(saveAddressPortOut.save(address)).thenReturn(address);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, ACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, ACTIVE);
 
         assertEquals(expectedResponse, response);
         assertTrue(user.isActive());
@@ -237,7 +237,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve inativar um usuário que possui apenas loja sem endereço associado")
     void shouldInactivateUserWithStoreWithoutAddressSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(true);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -246,9 +246,9 @@ class InactiveActiveUserUseCaseTest {
         when(store.getAddress()).thenReturn(null);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, INACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, INACTIVE);
 
         assertEquals(expectedResponse, response);
         assertFalse(user.isActive());
@@ -263,7 +263,7 @@ class InactiveActiveUserUseCaseTest {
     @Test
     @DisplayName("Deve ativar um usuário que possui apenas loja sem endereço associado")
     void shouldActivateUserWithStoreWithoutAddressSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
         user.setActive(false);
 
         when(findUserPortOut.findByUuidOrThrow(userUuid)).thenReturn(user);
@@ -272,9 +272,9 @@ class InactiveActiveUserUseCaseTest {
         when(store.getAddress()).thenReturn(null);
         when(saveStorePortOut.save(store)).thenReturn(store);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.inactiveActive(userUuid, ACTIVE);
+        UserResponseDTO response = useCase.inactiveActive(userUuid, ACTIVE);
 
         assertEquals(expectedResponse, response);
         assertTrue(user.isActive());
@@ -303,7 +303,7 @@ class InactiveActiveUserUseCaseTest {
         verify(saveAddressPortOut, never()).save(any());
         verify(saveStorePortOut, never()).save(any());
         verify(saveUserPortOut, never()).save(any());
-        verify(mapper, never()).entityToUserResponse(any());
+        verify(mapper, never()).entityToUserResponseDto(any());
     }
 
     @Test
@@ -323,6 +323,6 @@ class InactiveActiveUserUseCaseTest {
         verify(saveAddressPortOut, never()).save(any());
         verify(saveStorePortOut, never()).save(any());
         verify(saveUserPortOut, never()).save(any());
-        verify(mapper, never()).entityToUserResponse(any());
+        verify(mapper, never()).entityToUserResponseDto(any());
     }
 }

@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.user.ports.in;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.request.CreateUserRequest;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.request.CreateUserRequestDTO;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 
 public interface CreateUserPortIn {
-    UserResponse create(String userType, CreateUserRequest request);
+    UserResponseDTO create(String userType, CreateUserRequestDTO request);
 }

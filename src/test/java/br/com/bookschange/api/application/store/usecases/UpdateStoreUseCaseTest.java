@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.request.UpdateStoreRequest;
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.request.UpdateStoreRequestDTO;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
@@ -31,7 +31,7 @@ class UpdateStoreUseCaseTest {
     @Mock private SaveStorePortOut saveStorePortOut;
     @Mock private FindStorePortOut findStorePortOut;
 
-    private UpdateStoreRequest request;
+    private UpdateStoreRequestDTO request;
     private Store store;
     private UUID uuid;
 
@@ -42,7 +42,7 @@ class UpdateStoreUseCaseTest {
     void setUp() {
         uuid = UUID.randomUUID();
 
-        request = new UpdateStoreRequest(
+        request = new UpdateStoreRequestDTO(
                 "Store",
                 "00 00000-0000",
                 "store-test",
@@ -59,24 +59,24 @@ class UpdateStoreUseCaseTest {
     @Test
     @DisplayName("Deve atualizar um loja com sucesso")
     void shouldUpdateStoreSuccessfully() {
-        StoreResponse expectedResponse = mock(StoreResponse.class);
+        StoreResponseDTO expectedResponse = mock(StoreResponseDTO.class);
 
         doNothing().when(validator).validateUpdate(uuid, request.slug());
         when(findStorePortOut.findByUuidOrThrow(uuid)).thenReturn(store);
-        doNothing().when(mapper).updateStoreRequestToEntity(request, store);
+        doNothing().when(mapper).updateStoreRequestDtoToEntity(request, store);
         doNothing().when(normalizer).normalizeData(store);
         when(saveStorePortOut.save(store)).thenReturn(store);
-        when(mapper.entityToStoreResponse(store)).thenReturn(expectedResponse);
+        when(mapper.entityToStoreResponseDto(store)).thenReturn(expectedResponse);
 
-        StoreResponse result = useCase.update(uuid, request);
+        StoreResponseDTO result = useCase.update(uuid, request);
 
         assertEquals(expectedResponse, result);
         verify(validator).validateUpdate(uuid, request.slug());
         verify(findStorePortOut).findByUuidOrThrow(uuid);
-        verify(mapper).updateStoreRequestToEntity(request, store);
+        verify(mapper).updateStoreRequestDtoToEntity(request, store);
         verify(normalizer).normalizeData(store);
         verify(saveStorePortOut).save(store);
-        verify(mapper).entityToStoreResponse(store);
+        verify(mapper).entityToStoreResponseDto(store);
     }
 
     @Test
@@ -85,9 +85,9 @@ class UpdateStoreUseCaseTest {
         when(findStorePortOut.findByUuidOrThrow(uuid)).thenThrow(new NotFoundException("Loja não encontrada"));
         assertThrows(NotFoundException.class, () -> useCase.update(uuid, request));
 
-        verify(mapper, never()).updateStoreRequestToEntity(any(), any());
+        verify(mapper, never()).updateStoreRequestDtoToEntity(any(), any());
         verify(normalizer, never()).normalizeData(any());
         verify(saveStorePortOut, never()).save(any());
-        verify(mapper, never()).entityToStoreResponse(any());
+        verify(mapper, never()).entityToStoreResponseDto(any());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.request.UpdateUserRequest;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.request.UpdateUserRequestDTO;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
@@ -31,7 +31,7 @@ class UpdateUserUseCaseTest {
     @Mock private FindUserPortOut findUserPortOut;
     @Mock private SaveUserPortOut saveUserPortOut;
 
-    private UpdateUserRequest request;
+    private UpdateUserRequestDTO request;
     private UUID uuid;
     private User user;
 
@@ -42,7 +42,7 @@ class UpdateUserUseCaseTest {
     void setUp() {
         uuid = UUID.randomUUID();
 
-        request = new UpdateUserRequest(
+        request = new UpdateUserRequestDTO(
                 "User",
                 Gender.NOT_INFORMED,
                 LocalDate.now()
@@ -58,23 +58,23 @@ class UpdateUserUseCaseTest {
     @Test
     @DisplayName("Deve atualizar um usuário com sucesso")
     void shouldUpdateUserSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
 
         when(findUserPortOut.findByUuidOrThrow(uuid)).thenReturn(user);
-        doNothing().when(mapper).updateUserRequestToEntity(request, user);
+        doNothing().when(mapper).updateUserRequestDtoToEntity(request, user);
         when(normalizer.normalizeToUpperCase(user.getName())).thenReturn("USER");
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.update(uuid, request);
+        UserResponseDTO response = useCase.update(uuid, request);
 
         assertEquals(expectedResponse, response);
         assertEquals("USER", user.getName());
         verify(findUserPortOut).findByUuidOrThrow(uuid);
-        verify(mapper).updateUserRequestToEntity(request, user);
+        verify(mapper).updateUserRequestDtoToEntity(request, user);
         verify(normalizer).normalizeToUpperCase(anyString());
         verify(saveUserPortOut).save(user);
-        verify(mapper).entityToUserResponse(user);
+        verify(mapper).entityToUserResponseDto(user);
     }
 
     @Test

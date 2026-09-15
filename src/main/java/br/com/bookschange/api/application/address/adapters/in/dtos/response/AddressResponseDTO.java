@@ -2,7 +2,7 @@ package br.com.bookschange.api.application.address.adapters.in.dtos.response;
 
 import java.util.UUID;
 
-public record AddressResponse(
+public record AddressResponseDTO(
         UUID uuid,
         String zipCode,
         String street,

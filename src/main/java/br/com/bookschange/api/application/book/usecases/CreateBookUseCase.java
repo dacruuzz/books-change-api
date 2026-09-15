@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.in.CreateBookPortIn;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
@@ -33,7 +33,7 @@ public class CreateBookUseCase implements CreateBookPortIn {
 
     @Override
     @Transactional
-    public BookResponse create(CreateBookRequest request) {
+    public BookResponseDTO create(CreateBookRequestDTO request) {
         log.info("Criando livro | titulo: {}", request.name());
 
         User owner = findUserPortOut.findByUuidOrThrow(request.ownerUuid());
@@ -50,6 +50,6 @@ public class CreateBookUseCase implements CreateBookPortIn {
         Book createdBook = saveBookPortOut.save(book);
 
         log.info("Livro criado com sucesso | uuid: {} | título: {}", createdBook.getUuid(), createdBook.getName());
-        return mapper.entityToBookResponse(createdBook);
+        return mapper.entityToBookResponseDto(createdBook);
     }
 }

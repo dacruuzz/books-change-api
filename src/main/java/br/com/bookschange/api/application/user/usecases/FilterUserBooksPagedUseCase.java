@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
-import br.com.bookschange.api.application.book.dtos.BookFilter;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
+import br.com.bookschange.api.application.book.dtos.BookFilterDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.user.ports.in.FilterUserBooksPagedPortIn;
 import br.com.bookschange.api.application.user.ports.out.FilterUserBooksPagedPortOut;
@@ -28,13 +28,13 @@ public class FilterUserBooksPagedUseCase implements FilterUserBooksPagedPortIn {
     private final FilterUserBooksPagedPortOut filterUserBooksPagedPortOut;
 
     @Override
-    public PageDTO<BookResponse> filter(UUID ownerUuid, FilterBookRequest request, int page, int pageSize) {
+    public PageDTO<BookResponseDTO> filter(UUID ownerUuid, FilterBookRequestDTO request, int page, int pageSize) {
         log.info("Iniciando filtro paginado dos livros do usuário | ownerUuid: {}", ownerUuid);
 
-        BookFilter filter = bookMapper.filterBookRequestToBookFilter(request);
+        BookFilterDTO filter = bookMapper.filterBookRequestToBookFilterDto(request);
         Pageable pageable = PaginationFactory.createPageable(page, pageSize);
         Page<Book> userBooks = filterUserBooksPagedPortOut.find(ownerUuid, filter, pageable);
-        Page<BookResponse> mappedPage = userBooks.map(bookMapper::entityToBookResponse);
+        Page<BookResponseDTO> mappedPage = userBooks.map(bookMapper::entityToBookResponseDto);
 
         log.info("Busca de livro realizada. Encontrando {} livros", mappedPage.getTotalElements());
         return pageMapper.toPageDTO(mappedPage);
