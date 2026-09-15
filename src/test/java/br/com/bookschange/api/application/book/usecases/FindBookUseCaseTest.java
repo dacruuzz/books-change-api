@@ -44,13 +44,13 @@ class FindBookUseCaseTest {
         assertEquals(uuid, book.getUuid());
 
         BookResponseDTO expectedResponse = mock(BookResponseDTO.class);
-        when(mapper.entityToBookResponse(book)).thenReturn(expectedResponse);
+        when(mapper.entityToBookResponseDto(book)).thenReturn(expectedResponse);
 
         BookResponseDTO result = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, result);
         verify(findBookPortOut, times(1)).findByUuidOrThrow(any());
-        verify(mapper, times(1)).entityToBookResponse(any());
+        verify(mapper, times(1)).entityToBookResponseDto(any());
     }
 
     @Test
@@ -60,6 +60,6 @@ class FindBookUseCaseTest {
 
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(any()));
 
-        verify(mapper, never()).entityToBookResponse(any());
+        verify(mapper, never()).entityToBookResponseDto(any());
     }
 }

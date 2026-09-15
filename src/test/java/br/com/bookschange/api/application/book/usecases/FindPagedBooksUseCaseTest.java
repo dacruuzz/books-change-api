@@ -63,14 +63,14 @@ class FindPagedBooksUseCaseTest {
         PageDTO<BookResponseDTO> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 1L, List.of(bookResponseDTO));
 
         when(findPagedBooksPortOut.findAllActivePaged(any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
         verify(findPagedBooksPortOut).findAllActivePaged(any(Pageable.class));
-        verify(bookMapper).entityToBookResponse(book);
+        verify(bookMapper).entityToBookResponseDto(book);
     }
 
     @Test
@@ -85,7 +85,7 @@ class FindPagedBooksUseCaseTest {
         PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
-        verify(bookMapper, never()).entityToBookResponse(any());
+        verify(bookMapper, never()).entityToBookResponseDto(any());
     }
 
     @Test
@@ -104,14 +104,14 @@ class FindPagedBooksUseCaseTest {
         PageDTO<BookResponseDTO> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 2L, List.of(bookResponseDTO, secondBookResponse));
 
         when(findPagedBooksPortOut.findAllActivePaged(any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
-        when(bookMapper.entityToBookResponse(secondBook)).thenReturn(secondBookResponse);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(secondBook)).thenReturn(secondBookResponse);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
         assertEquals(2, response.content().size());
-        verify(bookMapper, times(2)).entityToBookResponse(any());
+        verify(bookMapper, times(2)).entityToBookResponseDto(any());
     }
 }

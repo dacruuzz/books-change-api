@@ -32,7 +32,7 @@ public class FindPagedBooksUseCase implements FindPagedBookPortIn {
 
         Page<Book> books = findPagedBooksPortOut.findAllActivePaged(pageable);
 
-        Page<BookResponseDTO> mappedPage = books.map(bookMapper::entityToBookResponse);
+        Page<BookResponseDTO> mappedPage = books.map(bookMapper::entityToBookResponseDto);
 
         log.info("Busca de livro realizada. Encontrando {} livros", mappedPage.getTotalElements());
         return pageMapper.toPageDTO(mappedPage);

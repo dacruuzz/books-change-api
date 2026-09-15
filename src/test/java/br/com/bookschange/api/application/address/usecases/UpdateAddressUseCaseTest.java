@@ -73,7 +73,7 @@ class UpdateAddressUseCaseTest {
         doNothing().when(mapper).updateAddressRequestDtoToEntity(request, address);
         doNothing().when(normalizer).normalizeData(address);
         when(saveAddressPortOut.save(address)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
         AddressResponseDTO result = useCase.update(uuid, request);
 
@@ -85,7 +85,7 @@ class UpdateAddressUseCaseTest {
         verify(mapper).updateAddressRequestDtoToEntity(request, address);
         verify(normalizer).normalizeData(address);
         verify(saveAddressPortOut).save(addressCaptor.capture());
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
     }
 
     @Test
@@ -98,7 +98,7 @@ class UpdateAddressUseCaseTest {
         doNothing().when(mapper).updateAddressRequestDtoToEntity(requestNull, address);
         doNothing().when(normalizer).normalizeData(address);
         when(saveAddressPortOut.save(address)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
         AddressResponseDTO result = useCase.update(uuid, requestNull);
         ArgumentCaptor<Address> addressCaptor = ArgumentCaptor.forClass(Address.class);
@@ -108,7 +108,7 @@ class UpdateAddressUseCaseTest {
         verify(mapper).updateAddressRequestDtoToEntity(requestNull, address);
         verify(normalizer).normalizeData(address);
         verify(saveAddressPortOut).save(addressCaptor.capture());
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
         verify(validator, never()).validateZipCode(any());
     }
 
@@ -124,6 +124,6 @@ class UpdateAddressUseCaseTest {
         verify(mapper, never()).updateAddressRequestDtoToEntity(any(), any());
         verify(normalizer, never()).normalizeData(any());
         verify(saveAddressPortOut, never()).save(any());
-        verify(mapper, never()).entityToAddressResponse(any());
+        verify(mapper, never()).entityToAddressResponseDto(any());
     }
 }

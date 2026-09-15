@@ -42,13 +42,13 @@ class FindAddressUseCaseTest {
         AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
 
         when(findAddressPortOut.findByUuidOrThrow(uuid)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
         AddressResponseDTO result = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, result);
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
     }
 
     @Test
@@ -59,6 +59,6 @@ class FindAddressUseCaseTest {
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(uuid));
 
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
-        verify(mapper, never()).entityToAddressResponse(any());
+        verify(mapper, never()).entityToAddressResponseDto(any());
     }
 }

@@ -78,7 +78,7 @@ class UpdateBookUseCaseTest {
         when(findBookPortOut.findByUuidOrThrow(bookUuid)).thenReturn(book);
         when(findCategoryPortOut.findAllByUuids(request.categories())).thenReturn(List.of(category));
         when(saveBookPortOut.save(book)).thenReturn(book);
-        when(mapper.entityToBookResponse(book)).thenReturn(expectedResponse);
+        when(mapper.entityToBookResponseDto(book)).thenReturn(expectedResponse);
 
         BookResponseDTO response = useCase.update(bookUuid, request);
 
@@ -96,7 +96,7 @@ class UpdateBookUseCaseTest {
         when(findBookPortOut.findByUuidOrThrow(bookUuid)).thenReturn(book);
         when(findCategoryPortOut.findAllByUuids(request.categories())).thenReturn(List.of(category));
         when(saveBookPortOut.save(book)).thenReturn(book);
-        when(mapper.entityToBookResponse(book)).thenReturn(mock(BookResponseDTO.class));
+        when(mapper.entityToBookResponseDto(book)).thenReturn(mock(BookResponseDTO.class));
 
         useCase.update(bookUuid, request);
 

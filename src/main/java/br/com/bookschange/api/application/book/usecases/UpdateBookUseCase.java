@@ -49,6 +49,6 @@ public class UpdateBookUseCase implements UpdateBookPortIn {
 
         log.info("Livro atualizado com sucesso | uuid: {}", updatedBook.getUuid());
 
-        return mapper.entityToBookResponse(updatedBook);
+        return mapper.entityToBookResponseDto(updatedBook);
     }
 }

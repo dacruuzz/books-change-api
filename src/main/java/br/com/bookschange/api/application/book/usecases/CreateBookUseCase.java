@@ -50,6 +50,6 @@ public class CreateBookUseCase implements CreateBookPortIn {
         Book createdBook = saveBookPortOut.save(book);
 
         log.info("Livro criado com sucesso | uuid: {} | título: {}", createdBook.getUuid(), createdBook.getName());
-        return mapper.entityToBookResponse(createdBook);
+        return mapper.entityToBookResponseDto(createdBook);
     }
 }

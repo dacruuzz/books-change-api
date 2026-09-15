@@ -31,10 +31,10 @@ public class FilterUserBooksPagedUseCase implements FilterUserBooksPagedPortIn {
     public PageDTO<BookResponseDTO> filter(UUID ownerUuid, FilterBookRequestDTO request, int page, int pageSize) {
         log.info("Iniciando filtro paginado dos livros do usuário | ownerUuid: {}", ownerUuid);
 
-        BookFilterDTO filter = bookMapper.filterBookRequestToBookFilter(request);
+        BookFilterDTO filter = bookMapper.filterBookRequestToBookFilterDto(request);
         Pageable pageable = PaginationFactory.createPageable(page, pageSize);
         Page<Book> userBooks = filterUserBooksPagedPortOut.find(ownerUuid, filter, pageable);
-        Page<BookResponseDTO> mappedPage = userBooks.map(bookMapper::entityToBookResponse);
+        Page<BookResponseDTO> mappedPage = userBooks.map(bookMapper::entityToBookResponseDto);
 
         log.info("Busca de livro realizada. Encontrando {} livros", mappedPage.getTotalElements());
         return pageMapper.toPageDTO(mappedPage);

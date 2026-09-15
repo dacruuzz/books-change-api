@@ -26,6 +26,6 @@ public class FindBookUseCase implements FindBookPortIn {
         Book foundBook = findBookPortOut.findByUuidOrThrow(uuid);
 
         log.info("Livro encontrado | uuid: {} | título: {}", foundBook.getUuid(), foundBook.getName());
-        return mapper.entityToBookResponse(foundBook);
+        return mapper.entityToBookResponseDto(foundBook);
     }
 }

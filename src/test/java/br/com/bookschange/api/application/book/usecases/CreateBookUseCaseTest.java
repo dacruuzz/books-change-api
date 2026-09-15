@@ -100,7 +100,7 @@ class CreateBookUseCaseTest {
         when(mapper.createBookRequestToEntity(request)).thenReturn(mappedBook);
         doNothing().when(normalizer).normalizeData(mappedBook);
         when(saveBookPortOut.save(mappedBook)).thenReturn(mappedBook);
-        when(mapper.entityToBookResponse(mappedBook)).thenReturn(expectedResponse);
+        when(mapper.entityToBookResponseDto(mappedBook)).thenReturn(expectedResponse);
 
         BookResponseDTO result = useCase.create(request);
 
@@ -108,7 +108,7 @@ class CreateBookUseCaseTest {
         verify(validator, times(1)).validateCategories(anyList());
         verify(normalizer, times(1)).normalizeData(any());
         verify(mapper, times(1)).createBookRequestToEntity(any());
-        verify(mapper, times(1)).entityToBookResponse(any());
+        verify(mapper, times(1)).entityToBookResponseDto(any());
         verify(findUserPortOut).findByUuidOrThrow(any());
         verify(findCategoryPortOut).findAllByUuids(anyList());
     }
@@ -123,7 +123,7 @@ class CreateBookUseCaseTest {
         verify(validator, never()).validateCategories(anyList());
         verify(normalizer, never()).normalizeData(any());
         verify(mapper, never()).createBookRequestToEntity(any());
-        verify(mapper, never()).entityToBookResponse(any());
+        verify(mapper, never()).entityToBookResponseDto(any());
         verify(findCategoryPortOut, never()).findAllByUuids(anyList());
     }
 }

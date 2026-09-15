@@ -26,6 +26,6 @@ public class FindAddressUseCase implements FindAddressPortIn {
         Address foundAddress = findAddressPortOut.findByUuidOrThrow(uuid);
 
         log.info("Endereço encontrado | uuid: {} | cep: {}", foundAddress.getUuid(), foundAddress.getZipCode());
-        return mapper.entityToAddressResponse(foundAddress);
+        return mapper.entityToAddressResponseDto(foundAddress);
     }
 }

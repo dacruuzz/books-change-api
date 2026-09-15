@@ -66,7 +66,7 @@ class CreateAddressUseCaseTest {
         when(saveAddressPortOut.save(address)).thenReturn(address);
 
         AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
         AddressResponseDTO result = useCase.create(request);
 
@@ -78,7 +78,7 @@ class CreateAddressUseCaseTest {
         verify(normalizer, times(1)).normalizeData(any());
         verify(validator, times(1)).validateZipCode(anyString());
         verify(mapper, times(1)).createAddressRequestDtoToEntity(any());
-        verify(mapper, times(1)).entityToAddressResponse(any());
+        verify(mapper, times(1)).entityToAddressResponseDto(any());
         verify(saveAddressPortOut).save(any());
     }
 
@@ -91,7 +91,7 @@ class CreateAddressUseCaseTest {
 
         verify(normalizer, never()).normalizeData(any());
         verify(mapper, never()).createAddressRequestDtoToEntity(any());
-        verify(mapper, never()).entityToAddressResponse(any());
+        verify(mapper, never()).entityToAddressResponseDto(any());
         verify(saveAddressPortOut, never()).save(any());
     }
 }

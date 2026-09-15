@@ -66,15 +66,15 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO(null, null, null, null, null);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
 
         assertEquals(expectedPageDTO, response);
-        verify(bookMapper).filterBookRequestToBookFilter(request);
+        verify(bookMapper).filterBookRequestToBookFilterDto(request);
         verify(filterUserBooksPagedPortOut).find(eq(ownerUuid), eq(filter), any(Pageable.class));
     }
 
@@ -91,15 +91,15 @@ class FilterUserBooksPagedUseCaseTest {
         );
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
 
         assertEquals(expectedPageDTO, response);
-        verify(bookMapper).filterBookRequestToBookFilter(request);
+        verify(bookMapper).filterBookRequestToBookFilterDto(request);
         verify(filterUserBooksPagedPortOut).find(eq(ownerUuid), eq(filter), any(Pageable.class));
     }
 
@@ -110,9 +110,9 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO("DOM CASMURRO", null, null, null, null);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
@@ -128,9 +128,9 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO(null, "MACHADO DE ASSIS", null, null, null);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
@@ -146,9 +146,9 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO(null, null, "EDITORA X", null, null);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
@@ -166,9 +166,9 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO(null, null, null, categoriesUuids, null);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
@@ -184,9 +184,9 @@ class FilterUserBooksPagedUseCaseTest {
         BookFilterDTO filter = new BookFilterDTO(null, null, null, null, CurrentCondition.GOOD);
         Page<Book> bookPage = new PageImpl<>(List.of(book));
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
@@ -203,13 +203,13 @@ class FilterUserBooksPagedUseCaseTest {
         Page<Book> emptyBookPage = new PageImpl<>(Collections.emptyList());
         PageDTO<BookResponseDTO> emptyPageDTO = new PageDTO<>(1, pageSize, 0, 0L, Collections.emptyList());
 
-        when(bookMapper.filterBookRequestToBookFilter(request)).thenReturn(filter);
+        when(bookMapper.filterBookRequestToBookFilterDto(request)).thenReturn(filter);
         when(filterUserBooksPagedPortOut.find(eq(ownerUuid), eq(filter), any(Pageable.class))).thenReturn(emptyBookPage);
         when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(emptyPageDTO);
 
         PageDTO<BookResponseDTO> response = useCase.filter(ownerUuid, request, page, pageSize);
 
         assertEquals(emptyPageDTO, response);
-        verify(bookMapper, never()).entityToBookResponse(any());
+        verify(bookMapper, never()).entityToBookResponseDto(any());
     }
 }
