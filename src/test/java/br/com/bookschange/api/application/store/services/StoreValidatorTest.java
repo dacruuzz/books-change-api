@@ -1,9 +1,10 @@
 package br.com.bookschange.api.application.store.services;
 
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
+import br.com.bookschange.api.application.store.services.validators.StoreValidator;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
 import br.com.bookschange.api.domain.models.Store;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

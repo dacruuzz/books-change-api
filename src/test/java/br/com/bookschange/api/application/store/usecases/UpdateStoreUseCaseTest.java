@@ -5,8 +5,8 @@ import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreR
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
-import br.com.bookschange.api.application.store.services.StoreNormalizer;
-import br.com.bookschange.api.application.store.services.StoreValidator;
+import br.com.bookschange.api.application.store.services.normalizers.StoreNormalizer;
+import br.com.bookschange.api.application.store.services.validators.StoreValidator;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
 import br.com.bookschange.api.domain.models.Store;
 import org.junit.jupiter.api.BeforeEach;

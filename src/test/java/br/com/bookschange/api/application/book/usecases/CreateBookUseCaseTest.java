@@ -4,8 +4,8 @@ import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBo
 import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
-import br.com.bookschange.api.application.book.services.BookNormalizer;
-import br.com.bookschange.api.application.book.services.BookValidator;
+import br.com.bookschange.api.application.book.services.normalizers.BookNormalizer;
+import br.com.bookschange.api.application.book.services.validators.BookValidator;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.domain.enums.CurrentCondition;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;

@@ -1,5 +1,6 @@
 package br.com.bookschange.api.application.book.services;
 
+import br.com.bookschange.api.application.book.services.validators.BookValidator;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
