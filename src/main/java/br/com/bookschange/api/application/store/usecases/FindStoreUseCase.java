@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.in.FindStorePortIn;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
@@ -20,7 +20,7 @@ public class FindStoreUseCase implements FindStorePortIn {
     private final FindStorePortOut findStorePortOut;
 
     @Override
-    public StoreResponse findByUuid(UUID uuid) {
+    public StoreResponseDTO findByUuid(UUID uuid) {
         log.info("Buscando loja | uuid: {}", uuid);
 
         Store store = findStorePortOut.findByUuidOrThrow(uuid);
@@ -28,6 +28,6 @@ public class FindStoreUseCase implements FindStorePortIn {
         log.info("Loja encontrada | uuid: {} | loja: {}",
                 store.getUuid(),
                 store.getName());
-        return mapper.entityToStoreResponse(store);
+        return mapper.entityToStoreResponseDto(store);
     }
 }

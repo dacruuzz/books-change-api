@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.address.usecases;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequest;
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequestDTO;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.in.UpdateAddressPortIn;
 import br.com.bookschange.api.application.address.ports.out.FindAddressPortOut;
@@ -29,7 +29,7 @@ public class UpdateAddressUseCase implements UpdateAddressPortIn {
 
     @Override
     @Transactional
-    public AddressResponse update(UUID uuid, UpdateAddressRequest request) {
+    public AddressResponseDTO update(UUID uuid, UpdateAddressRequestDTO request) {
         log.info("Buscando endereço | uuid: {}", uuid);
 
         Address foundAddress = findAddressPortOut.findByUuidOrThrow(uuid);
@@ -38,13 +38,13 @@ public class UpdateAddressUseCase implements UpdateAddressPortIn {
             validator.validateZipCode(request.zipCode());
         }
 
-        mapper.updateAddressRequestToEntity(request, foundAddress);
+        mapper.updateAddressRequestDtoToEntity(request, foundAddress);
 
         normalizer.normalizeData(foundAddress);
 
         Address updatedAddress = saveAddressPortOut.save(foundAddress);
 
         log.info("Edição de endereço feita com sucesso | uuid: {}", updatedAddress.getUuid());
-        return mapper.entityToAddressResponse(updatedAddress);
+        return mapper.entityToAddressResponseDto(updatedAddress);
     }
 }

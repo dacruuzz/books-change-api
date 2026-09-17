@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.book.adapters.in;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.ports.in.*;
 import br.com.bookschange.infrastructure.shared.ApiResponseBuilder;
 import br.com.bookschange.infrastructure.shared.pagination.PageDTO;
@@ -26,22 +26,22 @@ public class BooksController {
     private final DeleteBookPortIn deleteBookPortIn;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid CreateBookRequest request) {
-        BookResponse response = createBookPortIn.create(request);
+    public ResponseEntity<?> create(@RequestBody @Valid CreateBookRequestDTO request) {
+        BookResponseDTO response = createBookPortIn.create(request);
         return apiResponseBuilder.buildCreated(response);
     }
 
     @PutMapping("/{uuid}")
     public ResponseEntity<?> update(@PathVariable("uuid") UUID uuid,
-                                    @RequestBody @Valid UpdateBookRequest request
+                                    @RequestBody @Valid UpdateBookRequestDTO request
     ) {
-        BookResponse response = updateBookPortIn.update(uuid, request);
+        BookResponseDTO response = updateBookPortIn.update(uuid, request);
         return apiResponseBuilder.buildSuccess(response);
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<?> findByUuid(@PathVariable("uuid") UUID uuid) {
-        BookResponse response = findBookPortIn.findByUuid(uuid);
+        BookResponseDTO response = findBookPortIn.findByUuid(uuid);
         return apiResponseBuilder.buildSuccess(response);
     }
 
@@ -49,7 +49,7 @@ public class BooksController {
     private ResponseEntity<?> findAllPaged(@RequestParam(defaultValue = "1") int page,
                                            @RequestParam(defaultValue = "10") int pageSize
     ) {
-        PageDTO<BookResponse> response = findPagedBookPortIn.findAllPaged(page, pageSize);
+        PageDTO<BookResponseDTO> response = findPagedBookPortIn.findAllPaged(page, pageSize);
         return apiResponseBuilder.buildSuccessPaged(response);
     }
 

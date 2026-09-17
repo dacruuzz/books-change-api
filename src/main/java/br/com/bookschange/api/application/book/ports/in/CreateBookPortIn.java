@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.book.ports.in;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 
 public interface CreateBookPortIn {
-    BookResponse create(CreateBookRequest request);
+    BookResponseDTO create(CreateBookRequestDTO request);
 }
