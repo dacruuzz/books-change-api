@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.request.CreateUserRequest;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.request.CreateUserRequestDTO;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.application.user.ports.out.SaveUserPortOut;
@@ -36,7 +36,7 @@ class CreateUserUseCaseTest {
     @Mock private SaveUserPortOut saveUserPortOut;
     @Mock private FindUserPortOut findUserPortOut;
 
-    private CreateUserRequest request;
+    private CreateUserRequestDTO request;
     private User user;
 
     @InjectMocks
@@ -46,7 +46,7 @@ class CreateUserUseCaseTest {
     void setUp() {
         UUID uuid = UUID.randomUUID();
 
-        request = new CreateUserRequest(
+        request = new CreateUserRequestDTO(
                 "User",
                 "000.000.000-00",
                 Gender.NOT_INFORMED,
@@ -68,28 +68,28 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("Deve criar um usuário com sucesso")
     void shouldCreateUserSuccessfully() {
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
 
         when(normalizer.normalizeCpf(request.cpf())).thenReturn(NORMALIZED_CPF);
         when(findUserPortOut.existsByCpf(NORMALIZED_CPF)).thenReturn(false);
         when(normalizer.normalizeEmail(request.email())).thenReturn(NORMALIZED_EMAIL);
         when(findUserPortOut.existsByEmail(NORMALIZED_EMAIL)).thenReturn(false);
-        when(mapper.createUserRequestToEntity(request)).thenReturn(user);
+        when(mapper.createUserRequestDtoToEntity(request)).thenReturn(user);
         when(normalizer.normalizeToUpperCase(user.getName())).thenReturn("USER");
         when(normalizer.normalizeCpf(user.getCpf())).thenReturn(NORMALIZED_CPF);
         when(normalizer.normalizeEmail(user.getEmail())).thenReturn(NORMALIZED_EMAIL);
         when(saveUserPortOut.save(user)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.create("DEFAULT", request);
+        UserResponseDTO response = useCase.create("DEFAULT", request);
 
         assertEquals(expectedResponse, response);
         assertEquals(UserType.DEFAULT, user.getUserType());
         verify(normalizer, times(2)).normalizeEmail(anyString());
         verify(normalizer, times(2)).normalizeCpf(anyString());
         verify(normalizer).normalizeToUpperCase(anyString());
-        verify(mapper).createUserRequestToEntity(request);
-        verify(mapper).entityToUserResponse(user);
+        verify(mapper).createUserRequestDtoToEntity(request);
+        verify(mapper).entityToUserResponseDto(user);
         verify(findUserPortOut).existsByCpf(NORMALIZED_CPF);
         verify(findUserPortOut).existsByEmail(NORMALIZED_EMAIL);
         verify(saveUserPortOut).save(user);
@@ -110,7 +110,7 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("Deve lançar BusinessException quando o cpf for menor que 11 dígitos")
     void shouldThrowBusinessExceptionWhenCpfLengthIsLessThan11Digits() {
-        CreateUserRequest requestCpfInvalid = new CreateUserRequest(
+        CreateUserRequestDTO requestCpfInvalid = new CreateUserRequestDTO(
                 request.name(),
                 "000.000.000-0",
                 request.gender(),
@@ -132,7 +132,7 @@ class CreateUserUseCaseTest {
     @Test
     @DisplayName("Deve lançar BusinessException quando o cpf for maior que 11 dígitos")
     void shouldThrowBusinessExceptionWhenCpfLengthIsMoreThan11Digits() {
-        CreateUserRequest requestCpfInvalid = new CreateUserRequest(
+        CreateUserRequestDTO requestCpfInvalid = new CreateUserRequestDTO(
                 request.name(),
                 "000.000.000-000",
                 request.gender(),

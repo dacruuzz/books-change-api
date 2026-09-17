@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.category.usecases;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 import br.com.bookschange.api.application.category.mappers.CategoryMapper;
 import br.com.bookschange.api.application.category.ports.in.FindCategoryPortIn;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
@@ -22,22 +22,22 @@ public class FindCategoryUseCase implements FindCategoryPortIn {
 
 
     @Override
-    public List<CategoryResponse> findAll() {
+    public List<CategoryResponseDTO> findAll() {
         log.info("Buscando todas as categorias");
 
         List<Category> categoryList = findCategoryPortOut.findAll();
 
         return categoryList
                 .stream()
-                .map(mapper::entityToCategoryResponse)
+                .map(mapper::entityToCategoryResponseDto)
                 .toList();
     }
 
     @Override
-    public CategoryResponse findByUuid(UUID uuid) {
+    public CategoryResponseDTO findByUuid(UUID uuid) {
         log.info("Buscando categoria por uuid | uuid: {}", uuid);
 
         Category category = findCategoryPortOut.findByUuidOrThrow(uuid);
-        return mapper.entityToCategoryResponse(category);
+        return mapper.entityToCategoryResponseDto(category);
     }
 }

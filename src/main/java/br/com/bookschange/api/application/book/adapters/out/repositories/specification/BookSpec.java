@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.book.adapters.out.repositories.specification;
 
-import br.com.bookschange.api.application.book.dtos.BookFilter;
+import br.com.bookschange.api.application.book.dtos.BookFilterDTO;
 import br.com.bookschange.api.domain.models.Book;
 import br.com.bookschange.api.domain.models.BookCategory;
 import br.com.bookschange.api.domain.models.Category;
@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class BookSpec {
 
-    public static Specification<Book> filter(UUID ownerUuid, BookFilter filter) {
+    public static Specification<Book> filter(UUID ownerUuid, BookFilterDTO filter) {
         return (root, query, cb) -> {
             query.distinct(true);
 
@@ -33,7 +33,7 @@ public class BookSpec {
         };
     }
 
-    private static void buildCurrentConditionFilter(BookFilter filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
+    private static void buildCurrentConditionFilter(BookFilterDTO filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
         if (filter.currentCondition() != null) {
             predicates.add(
                 cb.equal(
@@ -44,7 +44,7 @@ public class BookSpec {
         }
     }
 
-    private static void buildCategoryFilter(BookFilter filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
+    private static void buildCategoryFilter(BookFilterDTO filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
         if (filter.bookCategoriesUuids() != null && !filter.bookCategoriesUuids().isEmpty()) {
             Join<Book, BookCategory> bookCategory = root.join("bookCategories");
             Join<BookCategory, Category> category = bookCategory.join("category");
@@ -55,7 +55,7 @@ public class BookSpec {
         }
     }
 
-    private static void buildPublisherFilter(BookFilter filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
+    private static void buildPublisherFilter(BookFilterDTO filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
         if (filter.publisher() != null) {
             predicates.add(
                 cb.like(
@@ -66,7 +66,7 @@ public class BookSpec {
         }
     }
 
-    private static void buildAuthorFilter(BookFilter filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
+    private static void buildAuthorFilter(BookFilterDTO filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
         if (filter.author() != null) {
             predicates.add(
                 cb.like(
@@ -77,7 +77,7 @@ public class BookSpec {
         }
     }
 
-    private static void buildNameFilter(BookFilter filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
+    private static void buildNameFilter(BookFilterDTO filter, Root<Book> root, CriteriaBuilder cb, List<Predicate> predicates) {
         if (filter.name() != null) {
             predicates.add(
                 cb.like(

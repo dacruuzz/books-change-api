@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.category.usecases;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequest;
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequestDTO;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 import br.com.bookschange.api.application.category.mappers.CategoryMapper;
 import br.com.bookschange.api.application.category.ports.in.CreateCategoryPortIn;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
@@ -26,12 +26,12 @@ public class CreateCategoryUseCase implements CreateCategoryPortIn {
 
     @Override
     @Transactional
-    public CategoryResponse create(CreateCategoryRequest request) {
+    public CategoryResponseDTO create(CreateCategoryRequestDTO request) {
         log.info("Criando nova categoria | label: {}", request.label());
 
         validateSlug(request.slug());
 
-        Category category = mapper.createCategoryToEntity(request);
+        Category category = mapper.createCategoryRequestDtoToEntity(request);
 
         normalizeData(category);
 
@@ -41,7 +41,7 @@ public class CreateCategoryUseCase implements CreateCategoryPortIn {
                 createdCategory.getUuid(),
                 createdCategory.getLabel()
         );
-        return mapper.entityToCategoryResponse(createdCategory);
+        return mapper.entityToCategoryResponseDto(createdCategory);
     }
 
     private void normalizeData(Category category) {

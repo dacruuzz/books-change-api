@@ -1,10 +1,10 @@
 package br.com.bookschange.api.application.book.mappers;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
-import br.com.bookschange.api.application.book.dtos.BookFilter;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.CreateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.FilterBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
+import br.com.bookschange.api.application.book.dtos.BookFilterDTO;
 import br.com.bookschange.api.domain.models.Book;
 import br.com.bookschange.api.domain.models.BookCategory;
 import br.com.bookschange.api.shared.dtos.SelectOptionDTO;
@@ -16,17 +16,17 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {
-    Book createBookRequestToEntity(CreateBookRequest request);
+    Book createBookRequestToEntity(CreateBookRequestDTO request);
 
     @Mapping(target = "owner", ignore = true)
     @Mapping(target = "bookCategories", ignore = true)
-    void updateBookFromRequest(UpdateBookRequest request, @MappingTarget Book book);
+    void updateBookRequestDtoToEntity(UpdateBookRequestDTO request, @MappingTarget Book book);
 
-    BookFilter filterBookRequestToBookFilter(FilterBookRequest request);
+    BookFilterDTO filterBookRequestToBookFilterDto(FilterBookRequestDTO request);
 
     @Mapping(target = "ownerUuid", source = "owner.uuid")
     @Mapping(target = "categories", source = "bookCategories")
-    BookResponse entityToBookResponse(Book book);
+    BookResponseDTO entityToBookResponseDto(Book book);
 
     default List<SelectOptionDTO> mapBookCategories(List<BookCategory> bookCategories) {
         return bookCategories

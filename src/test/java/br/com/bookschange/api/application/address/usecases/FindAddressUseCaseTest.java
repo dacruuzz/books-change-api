@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.address.usecases;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.out.FindAddressPortOut;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
@@ -39,16 +39,16 @@ class FindAddressUseCaseTest {
     @Test
     @DisplayName("Deve buscar um endereço pelo uuid com sucesso")
     void shouldFindAddressByUuidSuccessfully() {
-        AddressResponse expectedResponse = mock(AddressResponse.class);
+        AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
 
         when(findAddressPortOut.findByUuidOrThrow(uuid)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
-        AddressResponse result = useCase.findByUuid(uuid);
+        AddressResponseDTO result = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, result);
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
     }
 
     @Test
@@ -59,6 +59,6 @@ class FindAddressUseCaseTest {
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(uuid));
 
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
-        verify(mapper, never()).entityToAddressResponse(any());
+        verify(mapper, never()).entityToAddressResponseDto(any());
     }
 }

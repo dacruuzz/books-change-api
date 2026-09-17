@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.request.UpdateStoreRequest;
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.request.UpdateStoreRequestDTO;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.in.UpdateStorePortIn;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
@@ -27,20 +27,20 @@ public class UpdateStoreUseCase implements UpdateStorePortIn {
     private final FindStorePortOut findStorePortOut;
 
     @Override
-    public StoreResponse update(UUID uuid, UpdateStoreRequest request) {
+    public StoreResponseDTO update(UUID uuid, UpdateStoreRequestDTO request) {
         log.info("Buscando loja para edição | uuid: {}", uuid);
 
         validator.validateUpdate(uuid, request.slug());
 
         Store store = findStorePortOut.findByUuidOrThrow(uuid);
 
-        mapper.updateStoreRequestToEntity(request, store);
+        mapper.updateStoreRequestDtoToEntity(request, store);
 
         normalizer.normalizeData(store);
 
         Store updatedStore = saveStorePortOut.save(store);
 
         log.info("Edição de loja feita com sucesso");
-        return mapper.entityToStoreResponse(updatedStore);
+        return mapper.entityToStoreResponseDto(updatedStore);
     }
 }

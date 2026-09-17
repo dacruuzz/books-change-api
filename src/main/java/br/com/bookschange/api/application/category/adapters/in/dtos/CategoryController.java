@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.category.adapters.in.dtos;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequest;
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequestDTO;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 import br.com.bookschange.api.application.category.ports.in.CreateCategoryPortIn;
 import br.com.bookschange.api.application.category.ports.in.DeleteCategoryPortIn;
 import br.com.bookschange.api.application.category.ports.in.FindCategoryPortIn;
@@ -26,20 +26,20 @@ public class CategoryController {
     private final DeleteCategoryPortIn deleteCategoryPortIn;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody CreateCategoryRequest request) {
-        CategoryResponse response = createCategoryPortIn.create(request);
+    public ResponseEntity<?> create(@Valid @RequestBody CreateCategoryRequestDTO request) {
+        CategoryResponseDTO response = createCategoryPortIn.create(request);
         return apiResponseBuilder.buildCreated(response);
     }
 
     @GetMapping
     public ResponseEntity<?> findAll() {
-        List<CategoryResponse> responseList = findCategoryPortIn.findAll();
+        List<CategoryResponseDTO> responseList = findCategoryPortIn.findAll();
         return apiResponseBuilder.buildList(Collections.singletonList(responseList));
     }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<?> findByUuid(@PathVariable UUID uuid) {
-        CategoryResponse response = findCategoryPortIn.findByUuid(uuid);
+        CategoryResponseDTO response = findCategoryPortIn.findByUuid(uuid);
         return apiResponseBuilder.buildSuccess(response);
     }
 

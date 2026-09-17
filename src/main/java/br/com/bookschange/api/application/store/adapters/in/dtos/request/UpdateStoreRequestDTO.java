@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.store.adapters.in.dtos.request;
 
-public record UpdateStoreRequest(
+public record UpdateStoreRequestDTO(
         String name,
         String phone,
         String slug,
