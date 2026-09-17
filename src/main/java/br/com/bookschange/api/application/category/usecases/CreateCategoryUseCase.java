@@ -8,7 +8,7 @@ import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut
 import br.com.bookschange.api.application.category.ports.out.SaveCategoryPortOut;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
 import br.com.bookschange.api.domain.models.Category;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

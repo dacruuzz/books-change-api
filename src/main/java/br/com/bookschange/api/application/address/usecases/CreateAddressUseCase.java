@@ -5,8 +5,8 @@ import br.com.bookschange.api.application.address.adapters.in.dtos.response.Addr
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.in.CreateAddressPortIn;
 import br.com.bookschange.api.application.address.ports.out.SaveAddressPortOut;
-import br.com.bookschange.api.application.address.services.AddressNormalizer;
-import br.com.bookschange.api.application.address.services.AddressValidator;
+import br.com.bookschange.api.application.address.services.normalizers.AddressNormalizer;
+import br.com.bookschange.api.application.address.services.validators.AddressValidator;
 import br.com.bookschange.api.domain.models.Address;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

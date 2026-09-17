@@ -1,7 +1,8 @@
 package br.com.bookschange.api.application.book.services;
 
+import br.com.bookschange.api.application.book.services.normalizers.BookNormalizer;
 import br.com.bookschange.api.domain.models.Book;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

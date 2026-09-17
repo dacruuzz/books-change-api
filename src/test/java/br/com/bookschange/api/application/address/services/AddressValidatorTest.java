@@ -1,5 +1,6 @@
 package br.com.bookschange.api.application.address.services;
 
+import br.com.bookschange.api.application.address.services.validators.AddressValidator;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
