@@ -1,10 +1,9 @@
-package br.com.bookschange.api.application.store.services;
+package br.com.bookschange.api.application.store.services.validators;
 
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.domain.exceptions.BusinessException;
-import br.com.bookschange.api.domain.exceptions.NotFoundException;
 import br.com.bookschange.api.domain.models.Store;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import br.com.bookschange.infrastructure.shared.util.CNPJUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

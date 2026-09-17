@@ -1,7 +1,6 @@
-package br.com.bookschange.api.application.address.services;
+package br.com.bookschange.api.application.address.services.validators;
 
 import br.com.bookschange.api.domain.exceptions.BusinessException;
-import br.com.bookschange.api.domain.models.Address;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

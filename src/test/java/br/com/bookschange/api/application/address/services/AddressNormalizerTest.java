@@ -1,7 +1,8 @@
 package br.com.bookschange.api.application.address.services;
 
+import br.com.bookschange.api.application.address.services.normalizers.AddressNormalizer;
 import br.com.bookschange.api.domain.models.Address;
-import br.com.bookschange.api.shared.services.TextNormalizer;
+import br.com.bookschange.api.shared.services.validators.TextNormalizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
