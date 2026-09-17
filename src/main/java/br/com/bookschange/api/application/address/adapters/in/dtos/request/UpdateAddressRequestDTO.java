@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.address.adapters.in.dtos.request;
 
-public record UpdateAddressRequest(
+public record UpdateAddressRequestDTO(
         String zipCode,
         String street,
         String number,

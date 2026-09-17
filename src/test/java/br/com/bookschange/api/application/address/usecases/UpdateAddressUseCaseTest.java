@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.address.usecases;
 
-import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequest;
-import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponse;
+import br.com.bookschange.api.application.address.adapters.in.dtos.request.UpdateAddressRequestDTO;
+import br.com.bookschange.api.application.address.adapters.in.dtos.response.AddressResponseDTO;
 import br.com.bookschange.api.application.address.mappers.AddressMapper;
 import br.com.bookschange.api.application.address.ports.out.FindAddressPortOut;
 import br.com.bookschange.api.application.address.ports.out.SaveAddressPortOut;
@@ -37,13 +37,13 @@ class UpdateAddressUseCaseTest {
 
     private UUID uuid;
     private Address address;
-    private UpdateAddressRequest request;
+    private UpdateAddressRequestDTO request;
 
     @BeforeEach
     void setUp() {
         uuid = UUID.randomUUID();
         address = new Address();
-        request = new UpdateAddressRequest(
+        request = new UpdateAddressRequestDTO(
                 "70680-642",
                 "street",
                 "000",
@@ -66,49 +66,49 @@ class UpdateAddressUseCaseTest {
     @Test
     @DisplayName("Deve atualizar um endereço com sucesso")
     void shouldUpdateAddressSuccessfully() {
-        AddressResponse expectedResponse = mock(AddressResponse.class);
+        AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
 
         when(findAddressPortOut.findByUuidOrThrow(uuid)).thenReturn(address);
         doNothing().when(validator).validateZipCode(request.zipCode());
-        doNothing().when(mapper).updateAddressRequestToEntity(request, address);
+        doNothing().when(mapper).updateAddressRequestDtoToEntity(request, address);
         doNothing().when(normalizer).normalizeData(address);
         when(saveAddressPortOut.save(address)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
-        AddressResponse result = useCase.update(uuid, request);
+        AddressResponseDTO result = useCase.update(uuid, request);
 
         ArgumentCaptor<Address> addressCaptor = ArgumentCaptor.forClass(Address.class);
 
         assertEquals(expectedResponse, result);
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
         verify(validator).validateZipCode(request.zipCode());
-        verify(mapper).updateAddressRequestToEntity(request, address);
+        verify(mapper).updateAddressRequestDtoToEntity(request, address);
         verify(normalizer).normalizeData(address);
         verify(saveAddressPortOut).save(addressCaptor.capture());
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
     }
 
     @Test
     @DisplayName("Deve atualizar um endereço quando todos os campos do request forem nulls")
     void shouldUpdateAddressWhenAllRequestFieldsIsNull() {
-        UpdateAddressRequest requestNull = new UpdateAddressRequest(null, null, null,null,null,null,null, null);
-        AddressResponse expectedResponse = mock(AddressResponse.class);
+        UpdateAddressRequestDTO requestNull = new UpdateAddressRequestDTO(null, null, null,null,null,null,null, null);
+        AddressResponseDTO expectedResponse = mock(AddressResponseDTO.class);
 
         when(findAddressPortOut.findByUuidOrThrow(uuid)).thenReturn(address);
-        doNothing().when(mapper).updateAddressRequestToEntity(requestNull, address);
+        doNothing().when(mapper).updateAddressRequestDtoToEntity(requestNull, address);
         doNothing().when(normalizer).normalizeData(address);
         when(saveAddressPortOut.save(address)).thenReturn(address);
-        when(mapper.entityToAddressResponse(address)).thenReturn(expectedResponse);
+        when(mapper.entityToAddressResponseDto(address)).thenReturn(expectedResponse);
 
-        AddressResponse result = useCase.update(uuid, requestNull);
+        AddressResponseDTO result = useCase.update(uuid, requestNull);
         ArgumentCaptor<Address> addressCaptor = ArgumentCaptor.forClass(Address.class);
 
         assertEquals(expectedResponse, result);
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
-        verify(mapper).updateAddressRequestToEntity(requestNull, address);
+        verify(mapper).updateAddressRequestDtoToEntity(requestNull, address);
         verify(normalizer).normalizeData(address);
         verify(saveAddressPortOut).save(addressCaptor.capture());
-        verify(mapper).entityToAddressResponse(address);
+        verify(mapper).entityToAddressResponseDto(address);
         verify(validator, never()).validateZipCode(any());
     }
 
@@ -121,9 +121,9 @@ class UpdateAddressUseCaseTest {
 
         verify(findAddressPortOut).findByUuidOrThrow(uuid);
         verify(validator, never()).validateZipCode(any());
-        verify(mapper, never()).updateAddressRequestToEntity(any(), any());
+        verify(mapper, never()).updateAddressRequestDtoToEntity(any(), any());
         verify(normalizer, never()).normalizeData(any());
         verify(saveAddressPortOut, never()).save(any());
-        verify(mapper, never()).entityToAddressResponse(any());
+        verify(mapper, never()).entityToAddressResponseDto(any());
     }
 }

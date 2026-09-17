@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.request.CreateStoreRequest;
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.request.CreateStoreRequestDTO;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
 import br.com.bookschange.api.application.store.services.StoreNormalizer;
@@ -35,7 +35,7 @@ class CreateStoreUseCaseTest {
     @Mock private FindUserPortOut findUserPortOut;
     @Mock private SaveUserPortOut saveUserPortOut;
 
-    private CreateStoreRequest request;
+    private CreateStoreRequestDTO request;
     private UUID ownerUuid;
     private User owner;
     private Store store;
@@ -51,7 +51,7 @@ class CreateStoreUseCaseTest {
         owner.setUuid(ownerUuid);
         owner.setUserType(UserType.DEFAULT);
 
-        request = new CreateStoreRequest(
+        request = new CreateStoreRequestDTO(
                 "Store",
                 "00.000.000/0000-00",
                 "store@email.com",
@@ -73,28 +73,28 @@ class CreateStoreUseCaseTest {
     @Test
     @DisplayName("Deve criar uma loja com sucesso")
     void shouldCreateStoreSuccessfully() {
-        StoreResponse expectedResponse = mock(StoreResponse.class);
+        StoreResponseDTO expectedResponse = mock(StoreResponseDTO.class);
 
         doNothing().when(validator).validateCreation(request.commercialEmail(), request.cnpj(), request.slug(), request.ownerUuid());
         when(findUserPortOut.findByUuidOrThrow(ownerUuid)).thenReturn(owner);
-        when(mapper.createStoreRequestToEntity(request)).thenReturn(store);
+        when(mapper.createStoreRequestDtoToEntity(request)).thenReturn(store);
         doNothing().when(normalizer).normalizeData(store);
         when(saveUserPortOut.save(owner)).thenReturn(owner);
         when(saveStorePortOut.save(store)).thenReturn(store);
-        when(mapper.entityToStoreResponse(store)).thenReturn(expectedResponse);
+        when(mapper.entityToStoreResponseDto(store)).thenReturn(expectedResponse);
 
-        StoreResponse result = useCase.create(request);
+        StoreResponseDTO result = useCase.create(request);
 
         assertEquals(expectedResponse, result);
 
         assertEquals(UserType.STORE, owner.getUserType());
         verify(validator).validateCreation(request.commercialEmail(), request.cnpj(), request.slug(), request.ownerUuid());
         verify(findUserPortOut).findByUuidOrThrow(ownerUuid);
-        verify(mapper).createStoreRequestToEntity(request);
+        verify(mapper).createStoreRequestDtoToEntity(request);
         verify(normalizer).normalizeData(store);
         verify(saveUserPortOut).save(owner);
         verify(saveStorePortOut).save(store);
-        verify(mapper).entityToStoreResponse(store);
+        verify(mapper).entityToStoreResponseDto(store);
     }
 
     @Test
@@ -105,10 +105,10 @@ class CreateStoreUseCaseTest {
         assertThrows(NotFoundException.class, () -> useCase.create(request));
 
         assertEquals(UserType.DEFAULT, owner.getUserType());
-        verify(mapper, never()).createStoreRequestToEntity(request);
+        verify(mapper, never()).createStoreRequestDtoToEntity(request);
         verify(normalizer, never()).normalizeData(store);
         verify(saveUserPortOut, never()).save(owner);
         verify(saveStorePortOut, never()).save(store);
-        verify(mapper, never()).entityToStoreResponse(store);
+        verify(mapper, never()).entityToStoreResponseDto(store);
     }
 }

@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import java.util.UUID;
 
-public record CreateStoreRequest(
+public record CreateStoreRequestDTO(
         @NotBlank(message = "O nome da loja é obrigatório")
         String name,
 

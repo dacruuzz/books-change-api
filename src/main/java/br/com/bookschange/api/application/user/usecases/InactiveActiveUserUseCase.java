@@ -5,7 +5,7 @@ import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.application.store.ports.out.SaveStorePortOut;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.in.InactiveActiveUserPortIn;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
@@ -41,7 +41,7 @@ public class InactiveActiveUserUseCase implements InactiveActiveUserPortIn {
 
     @Override
     @Transactional
-    public UserResponse inactiveActive(UUID uuid, String pathParam) {
+    public UserResponseDTO inactiveActive(UUID uuid, String pathParam) {
         String action = pathParam.equals(INACTIVE) ? "Inativando usuário" : "Ativando usuário";
         log.info("{} | ownerUuid: {}", action, uuid);
 
@@ -56,7 +56,7 @@ public class InactiveActiveUserUseCase implements InactiveActiveUserPortIn {
         action = pathParam.equals(INACTIVE) ? "Usuário inativado com sucesso" : "Usuário ativado com sucesso";
 
         log.info("{} | ownerUuid: {} | status: {}", action, foundUser.getUuid(), pathParam);
-        return mapper.entityToUserResponse(user);
+        return mapper.entityToUserResponseDto(user);
     }
 
     private void inactiveOrActiveBooks(String pathParam, User owner) {

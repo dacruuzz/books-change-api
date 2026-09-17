@@ -4,7 +4,7 @@ import br.com.bookschange.api.domain.enums.Gender;
 
 import java.time.LocalDate;
 
-public record UpdateUserRequest(
+public record UpdateUserRequestDTO(
         String name,
         Gender gender,
         LocalDate birthDate

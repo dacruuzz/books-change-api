@@ -2,7 +2,7 @@ package br.com.bookschange.api.application.address.adapters.in.dtos.request;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record CreateAddressRequest(
+public record CreateAddressRequestDTO(
 
         @NotBlank(message = "O CEP é obrigatório")
         String zipCode,
