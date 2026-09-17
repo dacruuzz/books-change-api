@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.category.usecases;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequest;
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequestDTO;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 import br.com.bookschange.api.application.category.mappers.CategoryMapper;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
 import br.com.bookschange.api.application.category.ports.out.SaveCategoryPortOut;
@@ -37,12 +37,12 @@ public class CreateCategoryUseCaseTest {
     @InjectMocks
     private CreateCategoryUseCase useCase;
 
-    private CreateCategoryRequest request;
+    private CreateCategoryRequestDTO request;
     private Category mappedCategory;
 
     @BeforeEach
     void setUp() {
-        request = new CreateCategoryRequest(
+        request = new CreateCategoryRequestDTO(
                 VALID_LABEL,
                 VALID_SLUG,
                 "Livros de ficção científica"
@@ -60,16 +60,16 @@ public class CreateCategoryUseCaseTest {
         // --- ARRANGE ---
         when(normalizer.normalizeToLowerCase(request.slug())).thenReturn(VALID_SLUG_LOWERCASED);
         when(findCategoryPortOut.existsBySlug(VALID_SLUG_LOWERCASED)).thenReturn(false);
-        when(mapper.createCategoryToEntity(request)).thenReturn(mappedCategory);
+        when(mapper.createCategoryRequestDtoToEntity(request)).thenReturn(mappedCategory);
         when(normalizer.normalizeToLowerCase(mappedCategory.getSlug())).thenReturn(VALID_SLUG_LOWERCASED);
         when(normalizer.normalizeToUpperCase(mappedCategory.getLabel())).thenReturn(VALID_LABEL_UPPERCASED);
         when(saveCategoryPortOut.save(mappedCategory)).thenReturn(mappedCategory);
 
-        CategoryResponse expectedResponse = mock(CategoryResponse.class);
-        when(mapper.entityToCategoryResponse(mappedCategory)).thenReturn(expectedResponse);
+        CategoryResponseDTO expectedResponse = mock(CategoryResponseDTO.class);
+        when(mapper.entityToCategoryResponseDto(mappedCategory)).thenReturn(expectedResponse);
 
         // --- ACT ---
-        CategoryResponse result = useCase.create(request);
+        CategoryResponseDTO result = useCase.create(request);
 
         // --- ASSERT ---
         assertEquals(expectedResponse, result);
@@ -100,8 +100,8 @@ public class CreateCategoryUseCaseTest {
         verify(normalizer, times(1)).normalizeToLowerCase(anyString());
         verify(findCategoryPortOut, times(1)).existsBySlug(anyString());
         verify(saveCategoryPortOut, never()).save(any());
-        verify(mapper, never()).createCategoryToEntity(any());
-        verify(mapper, never()).entityToCategoryResponse(any());
+        verify(mapper, never()).createCategoryRequestDtoToEntity(any());
+        verify(mapper, never()).entityToCategoryResponseDto(any());
     }
 
     @Test
@@ -110,10 +110,10 @@ public class CreateCategoryUseCaseTest {
         // --- ARRANGE
         mappedCategory.setLabel(null);
 
-        when(mapper.createCategoryToEntity(request)).thenReturn(mappedCategory);
+        when(mapper.createCategoryRequestDtoToEntity(request)).thenReturn(mappedCategory);
         when(normalizer.normalizeToLowerCase(anyString())).thenReturn(VALID_SLUG_LOWERCASED);
         when(saveCategoryPortOut.save(mappedCategory)).thenReturn(mappedCategory);
-        when(mapper.entityToCategoryResponse(mappedCategory)).thenReturn(mock(CategoryResponse.class));
+        when(mapper.entityToCategoryResponseDto(mappedCategory)).thenReturn(mock(CategoryResponseDTO.class));
 
         // --- ACT
         useCase.create(request);
@@ -131,10 +131,10 @@ public class CreateCategoryUseCaseTest {
 
         when(normalizer.normalizeToLowerCase(request.slug())).thenReturn(VALID_SLUG_LOWERCASED);
         when(findCategoryPortOut.existsBySlug(VALID_SLUG_LOWERCASED)).thenReturn(false);
-        when(mapper.createCategoryToEntity(request)).thenReturn(mappedCategory);
+        when(mapper.createCategoryRequestDtoToEntity(request)).thenReturn(mappedCategory);
         when(normalizer.normalizeToUpperCase(anyString())).thenReturn(VALID_LABEL_UPPERCASED);
         when(saveCategoryPortOut.save(mappedCategory)).thenReturn(mappedCategory);
-        when(mapper.entityToCategoryResponse(mappedCategory)).thenReturn(mock(CategoryResponse.class));
+        when(mapper.entityToCategoryResponseDto(mappedCategory)).thenReturn(mock(CategoryResponseDTO.class));
 
         // --- ACT
         useCase.create(request);

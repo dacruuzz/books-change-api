@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.request.UpdateUserRequest;
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.request.UpdateUserRequestDTO;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.in.UpdateUserPortIn;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
@@ -25,18 +25,18 @@ public class UpdateUserUseCase implements UpdateUserPortIn {
     private final SaveUserPortOut saveUserPortOut;
 
     @Override
-    public UserResponse update(UUID uuid, UpdateUserRequest request) {
+    public UserResponseDTO update(UUID uuid, UpdateUserRequestDTO request) {
         log.info("Buscando usuário para edição | uuid: {}", uuid);
 
         User user = findUserPortOut.findByUuidOrThrow(uuid);
 
-        mapper.updateUserRequestToEntity(request, user);
+        mapper.updateUserRequestDtoToEntity(request, user);
 
         user.setName(normalizer.normalizeToUpperCase(user.getName()));
 
         User updatedUser = saveUserPortOut.save(user);
 
         log.info("Edição de usuário feita com sucesso");
-        return mapper.entityToUserResponse(updatedUser);
+        return mapper.entityToUserResponseDto(updatedUser);
     }
 }

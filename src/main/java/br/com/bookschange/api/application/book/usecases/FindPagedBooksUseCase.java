@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.in.FindPagedBookPortIn;
 import br.com.bookschange.api.application.book.ports.out.FindPagedBooksPortOut;
@@ -25,14 +25,14 @@ public class FindPagedBooksUseCase implements FindPagedBookPortIn {
 
 
     @Override
-    public PageDTO<BookResponse> findAllPaged(int page, int pageSize) {
+    public PageDTO<BookResponseDTO> findAllPaged(int page, int pageSize) {
         log.info("Buscando livros paginados");
 
         Pageable pageable = PaginationFactory.createPageable(page, pageSize);
 
         Page<Book> books = findPagedBooksPortOut.findAllActivePaged(pageable);
 
-        Page<BookResponse> mappedPage = books.map(bookMapper::entityToBookResponse);
+        Page<BookResponseDTO> mappedPage = books.map(bookMapper::entityToBookResponseDto);
 
         log.info("Busca de livro realizada. Encontrando {} livros", mappedPage.getTotalElements());
         return pageMapper.toPageDTO(mappedPage);

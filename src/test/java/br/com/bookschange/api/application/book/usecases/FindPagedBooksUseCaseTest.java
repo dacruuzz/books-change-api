@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.out.FindPagedBooksPortOut;
 import br.com.bookschange.api.domain.enums.CurrentCondition;
@@ -37,7 +37,7 @@ class FindPagedBooksUseCaseTest {
     private FindPagedBooksUseCase useCase;
 
     private Book book;
-    private BookResponse bookResponse;
+    private BookResponseDTO bookResponseDTO;
     private int page;
     private int pageSize;
 
@@ -50,7 +50,7 @@ class FindPagedBooksUseCaseTest {
         book.setUuid(UUID.randomUUID());
         book.setName("DOM CASMURRO");
 
-        bookResponse = new BookResponse(
+        bookResponseDTO = new BookResponseDTO(
                 book.getUuid(), "DOM CASMURRO", "MACHADO DE ASSIS", "EDITORA X",
                 "RESUMO", Collections.emptyList(), CurrentCondition.GOOD, UUID.randomUUID()
         );
@@ -60,32 +60,32 @@ class FindPagedBooksUseCaseTest {
     @DisplayName("Deve buscar livros ativos paginados com sucesso")
     void shouldFindActivePagedBooksSuccessfully() {
         Page<Book> bookPage = new PageImpl<>(List.of(book));
-        PageDTO<BookResponse> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 1L, List.of(bookResponse));
+        PageDTO<BookResponseDTO> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 1L, List.of(bookResponseDTO));
 
         when(findPagedBooksPortOut.findAllActivePaged(any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponse);
-        when(pageMapper.<BookResponse>toPageDTO(any())).thenReturn(expectedPageDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
+        when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
-        PageDTO<BookResponse> response = useCase.findAllPaged(page, pageSize);
+        PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
         verify(findPagedBooksPortOut).findAllActivePaged(any(Pageable.class));
-        verify(bookMapper).entityToBookResponse(book);
+        verify(bookMapper).entityToBookResponseDto(book);
     }
 
     @Test
     @DisplayName("Deve retornar página vazia quando não houver livros ativos")
     void shouldReturnEmptyPageWhenNoActiveBooksAreFound() {
         Page<Book> emptyBookPage = new PageImpl<>(Collections.emptyList());
-        PageDTO<BookResponse> expectedPageDTO = new PageDTO<>(1, pageSize, 0, 0L, Collections.emptyList());
+        PageDTO<BookResponseDTO> expectedPageDTO = new PageDTO<>(1, pageSize, 0, 0L, Collections.emptyList());
 
         when(findPagedBooksPortOut.findAllActivePaged(any(Pageable.class))).thenReturn(emptyBookPage);
-        when(pageMapper.<BookResponse>toPageDTO(any())).thenReturn(expectedPageDTO);
+        when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
-        PageDTO<BookResponse> response = useCase.findAllPaged(page, pageSize);
+        PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
-        verify(bookMapper, never()).entityToBookResponse(any());
+        verify(bookMapper, never()).entityToBookResponseDto(any());
     }
 
     @Test
@@ -95,23 +95,23 @@ class FindPagedBooksUseCaseTest {
         secondBook.setUuid(UUID.randomUUID());
         secondBook.setName("MEMÓRIAS PÓSTUMAS DE BRÁS CUBAS");
 
-        BookResponse secondBookResponse = new BookResponse(
+        BookResponseDTO secondBookResponse = new BookResponseDTO(
                 secondBook.getUuid(), "MEMÓRIAS PÓSTUMAS DE BRÁS CUBAS", "MACHADO DE ASSIS", "EDITORA X",
                 "RESUMO", Collections.emptyList(), CurrentCondition.GOOD, UUID.randomUUID()
         );
 
         Page<Book> bookPage = new PageImpl<>(List.of(book, secondBook));
-        PageDTO<BookResponse> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 2L, List.of(bookResponse, secondBookResponse));
+        PageDTO<BookResponseDTO> expectedPageDTO = new PageDTO<>(1, pageSize, 1, 2L, List.of(bookResponseDTO, secondBookResponse));
 
         when(findPagedBooksPortOut.findAllActivePaged(any(Pageable.class))).thenReturn(bookPage);
-        when(bookMapper.entityToBookResponse(book)).thenReturn(bookResponse);
-        when(bookMapper.entityToBookResponse(secondBook)).thenReturn(secondBookResponse);
-        when(pageMapper.<BookResponse>toPageDTO(any())).thenReturn(expectedPageDTO);
+        when(bookMapper.entityToBookResponseDto(book)).thenReturn(bookResponseDTO);
+        when(bookMapper.entityToBookResponseDto(secondBook)).thenReturn(secondBookResponse);
+        when(pageMapper.<BookResponseDTO>toPageDTO(any())).thenReturn(expectedPageDTO);
 
-        PageDTO<BookResponse> response = useCase.findAllPaged(page, pageSize);
+        PageDTO<BookResponseDTO> response = useCase.findAllPaged(page, pageSize);
 
         assertEquals(expectedPageDTO, response);
         assertEquals(2, response.content().size());
-        verify(bookMapper, times(2)).entityToBookResponse(any());
+        verify(bookMapper, times(2)).entityToBookResponseDto(any());
     }
 }

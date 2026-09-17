@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
@@ -32,16 +32,16 @@ class FindUserUseCaseTest {
     void shouldFindUserSuccessfully() {
         UUID uuid = UUID.randomUUID();
         User user = new User();
-        UserResponse expectedResponse = mock(UserResponse.class);
+        UserResponseDTO expectedResponse = mock(UserResponseDTO.class);
 
         when(findUserPortOut.findByUuidOrThrow(uuid)).thenReturn(user);
-        when(mapper.entityToUserResponse(user)).thenReturn(expectedResponse);
+        when(mapper.entityToUserResponseDto(user)).thenReturn(expectedResponse);
 
-        UserResponse response = useCase.findByUuid(uuid);
+        UserResponseDTO response = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, response);
         verify(findUserPortOut).findByUuidOrThrow(uuid);
-        verify(mapper).entityToUserResponse(user);
+        verify(mapper).entityToUserResponseDto(user);
     }
 
     @Test
@@ -51,6 +51,6 @@ class FindUserUseCaseTest {
 
         when(findUserPortOut.findByUuidOrThrow(uuid)).thenThrow(new NotFoundException("Usuário não encontrado"));
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(uuid));
-        verify(mapper, never()).entityToUserResponse(any());
+        verify(mapper, never()).entityToUserResponseDto(any());
     }
 }

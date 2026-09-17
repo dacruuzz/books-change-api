@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
@@ -43,14 +43,14 @@ class FindBookUseCaseTest {
         when(findBookPortOut.findByUuidOrThrow(uuid)).thenReturn(book);
         assertEquals(uuid, book.getUuid());
 
-        BookResponse expectedResponse = mock(BookResponse.class);
-        when(mapper.entityToBookResponse(book)).thenReturn(expectedResponse);
+        BookResponseDTO expectedResponse = mock(BookResponseDTO.class);
+        when(mapper.entityToBookResponseDto(book)).thenReturn(expectedResponse);
 
-        BookResponse result = useCase.findByUuid(uuid);
+        BookResponseDTO result = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, result);
         verify(findBookPortOut, times(1)).findByUuidOrThrow(any());
-        verify(mapper, times(1)).entityToBookResponse(any());
+        verify(mapper, times(1)).entityToBookResponseDto(any());
     }
 
     @Test
@@ -60,6 +60,6 @@ class FindBookUseCaseTest {
 
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(any()));
 
-        verify(mapper, never()).entityToBookResponse(any());
+        verify(mapper, never()).entityToBookResponseDto(any());
     }
 }

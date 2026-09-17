@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.user.usecases;
 
-import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponse;
+import br.com.bookschange.api.application.user.adapters.in.dtos.response.UserResponseDTO;
 import br.com.bookschange.api.application.user.mappers.UserMapper;
 import br.com.bookschange.api.application.user.ports.in.FindUserPortIn;
 import br.com.bookschange.api.application.user.ports.out.FindUserPortOut;
@@ -20,12 +20,12 @@ public class FindUserUseCase implements FindUserPortIn {
     private final FindUserPortOut findUserPortOut;
 
     @Override
-    public UserResponse findByUuid(UUID uuid) {
+    public UserResponseDTO findByUuid(UUID uuid) {
         log.info("Buscando usuário | uuid: {}", uuid);
 
         User user = findUserPortOut.findByUuidOrThrow(uuid);
 
         log.info("Usuário encontrado | uuid: {} | e-mail: {}", user.getUuid(), user.getEmail());
-        return mapper.entityToUserResponse(user);
+        return mapper.entityToUserResponseDto(user);
     }
 }

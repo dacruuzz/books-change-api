@@ -1,8 +1,8 @@
 package br.com.bookschange.api.application.category.ports.in;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequest;
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.request.CreateCategoryRequestDTO;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 
 public interface CreateCategoryPortIn {
-    CategoryResponse create(CreateCategoryRequest request);
+    CategoryResponseDTO create(CreateCategoryRequestDTO request);
 }

@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.store.usecases;
 
-import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponse;
+import br.com.bookschange.api.application.store.adapters.in.dtos.response.StoreResponseDTO;
 import br.com.bookschange.api.application.store.mappers.StoreMapper;
 import br.com.bookschange.api.application.store.ports.out.FindStorePortOut;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
@@ -31,16 +31,16 @@ class FindStoreUseCaseTest {
     void shouldFindStoreSuccessfully() {
         UUID uuid = UUID.randomUUID();
         Store store = new Store();
-        StoreResponse expectedResponse = mock(StoreResponse.class);
+        StoreResponseDTO expectedResponse = mock(StoreResponseDTO.class);
 
         when(findStorePortOut.findByUuidOrThrow(uuid)).thenReturn(store);
-        when(mapper.entityToStoreResponse(store)).thenReturn(expectedResponse);
+        when(mapper.entityToStoreResponseDto(store)).thenReturn(expectedResponse);
 
-        StoreResponse result = useCase.findByUuid(uuid);
+        StoreResponseDTO result = useCase.findByUuid(uuid);
 
         assertEquals(expectedResponse, result);
         verify(findStorePortOut).findByUuidOrThrow(uuid);
-        verify(mapper).entityToStoreResponse(store);
+        verify(mapper).entityToStoreResponseDto(store);
     }
 
     @Test
@@ -48,6 +48,6 @@ class FindStoreUseCaseTest {
     void shouldThrowNotFoundExceptionWhenStoreWasNotFoundByUuid() {
         when(findStorePortOut.findByUuidOrThrow(any())).thenThrow(new NotFoundException("Loja não encontrada"));
         assertThrows(NotFoundException.class, () -> useCase.findByUuid(any()));
-        verify(mapper, never()).entityToStoreResponse(any());
+        verify(mapper, never()).entityToStoreResponseDto(any());
     }
 }

@@ -1,7 +1,7 @@
 package br.com.bookschange.api.application.book.usecases;
 
-import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequest;
-import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponse;
+import br.com.bookschange.api.application.book.adapters.in.dtos.request.UpdateBookRequestDTO;
+import br.com.bookschange.api.application.book.adapters.in.dtos.response.BookResponseDTO;
 import br.com.bookschange.api.application.book.mappers.BookMapper;
 import br.com.bookschange.api.application.book.ports.out.FindBookPortOut;
 import br.com.bookschange.api.application.book.ports.out.SaveBookPortOut;
@@ -42,7 +42,7 @@ class UpdateBookUseCaseTest {
 
     private Book book;
     private Category category;
-    private UpdateBookRequest request;
+    private UpdateBookRequestDTO request;
     private UUID bookUuid;
 
     @BeforeEach
@@ -57,7 +57,7 @@ class UpdateBookUseCaseTest {
         category.setUuid(UUID.randomUUID());
         category.setLabel("FICÇÃO");
 
-        request = new UpdateBookRequest(
+        request = new UpdateBookRequestDTO(
                 "DOM CASMURRO",
                 "MACHADO DE ASSIS",
                 "EDITORA X",
@@ -70,7 +70,7 @@ class UpdateBookUseCaseTest {
     @Test
     @DisplayName("Deve atualizar um livro com sucesso")
     void shouldUpdateBookSuccessfully() {
-        BookResponse expectedResponse = new BookResponse(
+        BookResponseDTO expectedResponse = new BookResponseDTO(
                 bookUuid, "DOM CASMURRO", "MACHADO DE ASSIS", "EDITORA X",
                 "RESUMO", Collections.emptyList(), CurrentCondition.GOOD, null
         );
@@ -78,14 +78,14 @@ class UpdateBookUseCaseTest {
         when(findBookPortOut.findByUuidOrThrow(bookUuid)).thenReturn(book);
         when(findCategoryPortOut.findAllByUuids(request.categories())).thenReturn(List.of(category));
         when(saveBookPortOut.save(book)).thenReturn(book);
-        when(mapper.entityToBookResponse(book)).thenReturn(expectedResponse);
+        when(mapper.entityToBookResponseDto(book)).thenReturn(expectedResponse);
 
-        BookResponse response = useCase.update(bookUuid, request);
+        BookResponseDTO response = useCase.update(bookUuid, request);
 
         assertEquals(expectedResponse, response);
         verify(findBookPortOut).findByUuidOrThrow(bookUuid);
         verify(validator).validateCategories(anyList());
-        verify(mapper).updateBookFromRequest(request, book);
+        verify(mapper).updateBookRequestDtoToEntity(request, book);
         verify(normalizer).normalizeData(book);
         verify(saveBookPortOut).save(book);
     }
@@ -96,7 +96,7 @@ class UpdateBookUseCaseTest {
         when(findBookPortOut.findByUuidOrThrow(bookUuid)).thenReturn(book);
         when(findCategoryPortOut.findAllByUuids(request.categories())).thenReturn(List.of(category));
         when(saveBookPortOut.save(book)).thenReturn(book);
-        when(mapper.entityToBookResponse(book)).thenReturn(mock(BookResponse.class));
+        when(mapper.entityToBookResponseDto(book)).thenReturn(mock(BookResponseDTO.class));
 
         useCase.update(bookUuid, request);
 
@@ -125,7 +125,7 @@ class UpdateBookUseCaseTest {
 
         assertThrows(NotFoundException.class, () -> useCase.update(bookUuid, request));
 
-        verify(mapper, never()).updateBookFromRequest(any(), any());
+        verify(mapper, never()).updateBookRequestDtoToEntity(any(), any());
         verify(saveBookPortOut, never()).save(any());
     }
 }

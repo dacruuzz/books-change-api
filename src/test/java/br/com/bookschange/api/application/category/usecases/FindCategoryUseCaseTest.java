@@ -1,6 +1,6 @@
 package br.com.bookschange.api.application.category.usecases;
 
-import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponse;
+import br.com.bookschange.api.application.category.adapters.in.dtos.response.CategoryResponseDTO;
 import br.com.bookschange.api.application.category.mappers.CategoryMapper;
 import br.com.bookschange.api.application.category.ports.out.FindCategoryPortOut;
 import br.com.bookschange.api.domain.exceptions.NotFoundException;
@@ -33,15 +33,15 @@ class FindCategoryUseCaseTest {
     private UUID categoryUuid;
     private Category category;
     private List<Category> categoryList;
-    private CategoryResponse expectedResponse;
-    private List<CategoryResponse> expectedResponseList;
+    private CategoryResponseDTO expectedResponse;
+    private List<CategoryResponseDTO> expectedResponseList;
 
     @BeforeEach
     void setUp() {
         categoryUuid = UUID.randomUUID();
         category = mock(Category.class);
         category.setUuid(categoryUuid);
-        expectedResponse = mock(CategoryResponse.class);
+        expectedResponse = mock(CategoryResponseDTO.class);
 
         categoryList = new ArrayList<>();
         categoryList.add(category);
@@ -55,15 +55,15 @@ class FindCategoryUseCaseTest {
     void shouldFindAllCategoriesSuccessfully() {
         // --- ARRANGE
         when(findCategoryPortOut.findAll()).thenReturn(categoryList);
-        when(mapper.entityToCategoryResponse(category)).thenReturn(expectedResponse);
+        when(mapper.entityToCategoryResponseDto(category)).thenReturn(expectedResponse);
 
         // --- ACT
-        List<CategoryResponse> result = useCase.findAll();
+        List<CategoryResponseDTO> result = useCase.findAll();
 
         // --- ASSERT
         assertEquals(expectedResponseList, result);
         verify(findCategoryPortOut).findAll();
-        verify(mapper).entityToCategoryResponse(category);
+        verify(mapper).entityToCategoryResponseDto(category);
     }
 
     @Test
@@ -71,15 +71,15 @@ class FindCategoryUseCaseTest {
     void shouldFindCategoryByUuidSuccessfully() {
         // --- ARRANGE
         when(findCategoryPortOut.findByUuidOrThrow(categoryUuid)).thenReturn(category);
-        when(mapper.entityToCategoryResponse(category)).thenReturn(expectedResponse);
+        when(mapper.entityToCategoryResponseDto(category)).thenReturn(expectedResponse);
 
         // --- ACT
-        CategoryResponse result = useCase.findByUuid(categoryUuid);
+        CategoryResponseDTO result = useCase.findByUuid(categoryUuid);
 
         // --- ASSERT
         assertEquals(expectedResponse, result);
         verify(findCategoryPortOut).findByUuidOrThrow(categoryUuid);
-        verify(mapper).entityToCategoryResponse(category);
+        verify(mapper).entityToCategoryResponseDto(category);
     }
 
     @Test
@@ -94,6 +94,6 @@ class FindCategoryUseCaseTest {
         // --- ASSERT
         assertEquals("Categoria não encontrada", e.getMessage());
         verify(findCategoryPortOut).findByUuidOrThrow(any());
-        verify(mapper, never()).entityToCategoryResponse(any());
+        verify(mapper, never()).entityToCategoryResponseDto(any());
     }
 }
